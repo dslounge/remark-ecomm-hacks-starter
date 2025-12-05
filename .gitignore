@@ -27,8 +27,7 @@ node_modules/
 # Build outputs
 dist/
 
-# Database
-*.db
+# Database (WAL files only - main db is checked in for hackathon)
 *.db-wal
 *.db-shm
 
