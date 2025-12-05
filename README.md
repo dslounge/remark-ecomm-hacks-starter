@@ -1,130 +1,141 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./static/darkmode.png">
-  <source media="(prefers-color-scheme: light)" srcset="./static/lightmode.png">
-  <img alt="Ecomm Hacks Banner" src="./static/lightmode.png">
-</picture>
+# Summit Gear Co.
 
-## The Challenge
+A fake outdoor e-commerce site built for the Ecomm Hacks hackathon, featuring 100 realistic outdoor products across 8 categories.
 
-Build the best ecommerce tool you can with Nano Banana Pro and Gemini 3 Pro. You have 24 hours.
+## Tech Stack
 
-**What you're working with:**
+- **Monorepo:** npm workspaces
+- **Backend:** Express, TypeScript, SQLite (better-sqlite3), Zod
+- **Frontend:** Vite, React, TypeScript, Tailwind CSS, React Query, Zustand
+- **Shared:** TypeScript types shared between frontend and backend
 
-Nano Banana Pro is Google's new image generation model built on Gemini 3 Pro. It's designed for commercial use—product photography, background replacement, virtual try-on, marketing materials. It outputs up to 4K resolution and handles text in multiple languages.
+## Quick Start
 
-Gemini 3 Pro is Google's most advanced reasoning model. It's multimodal (text, images, video, audio, code), has a 1M token context window, and excels at complex reasoning and agentic tasks.
-
-**Getting Access:**
-
-1. **Set up your Google Cloud billing account**
-   - Go to [Google AI Studio](https://aistudio.google.com) or [Vertex AI](https://console.cloud.google.com/vertex-ai)
-   - Create or link a Google Cloud project
-   - Enable billing (credit card required)
-   
-2. **Apply your $100 GCP credit**
-   - Each team receives $100 in GCP credits
-   - Credits will be distributed at the start of the hackathon
-   - This covers approximately 745 2K images or 416 4K images
-
-**Pricing:**
-- 2K image: $0.134 each
-- 4K image: $0.24 each
-
-**Resources:**
-- [Nano Banana Pro Documentation](https://ai.google.dev/gemini-api/docs/image-generation)
-- [Gemini API Docs](https://ai.google.dev/gemini-api/docs)
-- [Google Cloud Billing Setup](https://docs.cloud.google.com/billing/docs/how-to/create-billing-account)
-
-**What we're looking for:**
-
-1. **Solves a real problem** - Does this address something ecommerce businesses actually struggle with?
-2. **Works well** - Is the execution solid? Does it deliver on what it promises?
-3. **Creative use of the tools** - Are you using Nano Banana Pro and Gemini 3 Pro in interesting ways?
-4. **Glitz, glam, gl-polished user interfaces** ✨ - Because it’s ecommerce, we ascribe a lot of value to excellent user experience. An obvious idea, executed extraordinarily well, in a useful/novel form factor ≥ an ambitious idea that leaves a lot to the imagination.
-
-**A note on obvious ideas:**
-
-Virtual try-on, background replacement, and basic product photography tools are the most straightforward applications of Nano Banana Pro. If you're building one of these, you're competing against what everyone else will think of first. To win with an obvious idea, your execution needs to be exceptional—not just functional, but genuinely better than existing solutions. We're looking for creativity.
-
-Here are the other obvious ones:
-
-**Image generation:**
-
-- Virtual try-on
-- Background replacement
-- Product photography
-- Marketing visuals/ad creative
-
-**Text/chat:**
-
-- Customer service/product guidance chatbot
-- Product description generator
-- Marketing copy writer
-- Review summarizer
-
-Maybe also:
-
-- Visual search (upload image, find similar products)
-- Size recommendation tool
-
-You might make one of these more interesting by:
-
-- Combining two or more obvious ideas into a unified experience, e.g. E2E rich marketing campaign generator, deep research for product reviews
-- Putting one of these in an interesting form factor, e.g. iOS App Clip, Apple TV app, Web Component, PoS/kiosk
-
-**What you need to deliver:**
-
-- **GitHub repo with your code** - Fork this repository and fill out the submission template below with your project details
-- **Live demo** - Hosted URL or demo video showcasing your tool in action
-- **Presentation** - You'll present your project to the group at the end of the 24 hours (5-7 minutes)
-
----
-
-## Your Submission
-
-**Delete the challenge brief above and fill out the sections below:**
-
-### Team Name
-[Your team name]
-
-### Team Members
-- [Name 1]
-- [Name 2]
-- [etc.]
-
-### Demo
-- **Live URL:** [your-app.vercel.app or similar]
-- **Demo Video:** [YouTube/Loom link if applicable]
-
-### What We Built
-[2-3 sentence description of your tool and what problem it solves]
-
-### How It Works
-[Brief explanation of your architecture and how you're using Nano Banana Pro and Gemini 3 Pro]
-
-### Key Features
-- [Feature 1]
-- [Feature 2]
-- [Feature 3]
-
-### Tech Stack
-- **Frontend:** [e.g., Next.js, React, etc.]
-- **Backend:** [e.g., Node.js, Python, etc.]
-- **Models:** Nano Banana Pro, Gemini 3 Pro
-- **Other:** [any other notable tech]
-
-### Setup Instructions
 ```bash
-# How to run your project locally
+# Install all dependencies
 npm install
+
+# Initialize database and seed 100 products
+npm run db:reset
+
+# Start both frontend and backend
 npm run dev
 ```
 
-### Screenshots
-[Add 2-3 screenshots of your app in action]
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:3001
 
-### Challenges We Faced
-[What was hard? What did you learn?]
+## Available Scripts
 
-### What's Next
-[If you had more time, what would you add?]
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start both frontend and backend in development mode |
+| `npm run build` | Build all packages for production |
+| `npm run db:init` | Create database tables and seed categories |
+| `npm run db:seed` | Generate and insert 100 products |
+| `npm run db:reset` | Reset database (init + seed) |
+
+## Project Structure
+
+```
+summit-gear-co/
+├── packages/
+│   ├── shared/           # Shared TypeScript types
+│   │   └── src/types/    # Product, Category, Cart, API types
+│   ├── backend/          # Express API server
+│   │   ├── src/
+│   │   │   ├── db/       # SQLite connection and schema
+│   │   │   ├── routes/   # API route handlers
+│   │   │   ├── services/ # Business logic
+│   │   │   └── middleware/
+│   │   ├── scripts/      # DB init and seed scripts
+│   │   └── data/         # SQLite database file
+│   └── frontend/         # Vite + React application
+│       └── src/
+│           ├── api/      # API client functions
+│           ├── components/
+│           │   ├── ui/       # Reusable UI components
+│           │   ├── layout/   # Header, Footer, Layout
+│           │   ├── products/ # Product display components
+│           │   └── cart/     # Cart components
+│           ├── hooks/    # React Query hooks
+│           ├── stores/   # Zustand cart store
+│           ├── pages/    # Page components
+│           └── lib/      # Utility functions
+├── package.json          # Root workspace config
+└── tsconfig.base.json    # Shared TypeScript config
+```
+
+## API Endpoints
+
+### Products
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/products` | List products (paginated) |
+| GET | `/api/products/:id` | Get single product |
+| GET | `/api/stats` | Database statistics |
+
+**Query Parameters for `/api/products`:**
+- `page` - Page number (default: 1)
+- `pageSize` - Items per page (default: 20, max: 100)
+- `categoryId` - Filter by category ID
+- `subcategory` - Filter by subcategory
+- `minPrice` - Minimum price in cents
+- `maxPrice` - Maximum price in cents
+- `search` - Search in name and description
+- `sortBy` - Sort field: `name`, `price`, `createdAt`
+- `sortOrder` - Sort direction: `asc`, `desc`
+
+### Categories
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/categories` | List all categories |
+| GET | `/api/categories/:slug` | Get category by slug |
+| GET | `/api/categories/:slug/products` | Products in category |
+
+## Product Categories
+
+| Category | Products | Examples |
+|----------|----------|----------|
+| Camping & Hiking | 18 | Tents, Sleeping Bags, Backpacks |
+| Climbing | 10 | Harnesses, Ropes, Carabiners |
+| Apparel | 20 | Jackets, Pants, Base Layers |
+| Footwear | 12 | Hiking Boots, Trail Runners |
+| Cycling | 10 | Helmets, Jerseys, Shorts |
+| Water Sports | 10 | Dry Bags, Life Vests, Wetsuits |
+| Winter Sports | 10 | Goggles, Gloves, Beanies |
+| Accessories | 10 | Headlamps, Water Bottles |
+
+## Features
+
+- **Product Browsing:** Filter by category, price range, and search
+- **Product Details:** Size and color selection, stock indicator
+- **Shopping Cart:** Persistent cart with localStorage
+- **Responsive Design:** Mobile-first with Tailwind CSS
+- **Type Safety:** Shared types between frontend and backend
+
+## AI Features (Coming Soon)
+
+This project is built for the Ecomm Hacks hackathon to integrate with:
+
+- **Nano Banana Pro:** AI-generated product images
+- **Gemini 3 Pro:** Virtual try-on, visual search, AI recommendations
+
+## Development
+
+```bash
+# Run backend only
+npm run dev -w @summit-gear/backend
+
+# Run frontend only
+npm run dev -w @summit-gear/frontend
+
+# Build shared types
+npm run build -w @summit-gear/shared
+```
+
+## License
+
+MIT

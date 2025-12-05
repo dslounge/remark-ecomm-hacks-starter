@@ -1,0 +1,12 @@
+{
+  "name": "summit-gear-co",
+  "private": true,
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspaces",
+    "db:init": "npm run db:init -w @summit-gear/backend",
+    "db:seed": "npm run db:seed -w @summit-gear/backend",
+    "db:reset": "npm run db:init -w @summit-gear/backend && npm run db:seed -w @summit-gear/backend"
+  }
+}

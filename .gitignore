@@ -20,3 +20,20 @@ Temporary Items
 # Environment Variables
 .env*
 !.env.example
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+
+# Database
+*.db
+*.db-wal
+*.db-shm
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
