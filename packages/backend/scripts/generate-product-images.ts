@@ -79,7 +79,7 @@ async function generateImage(prompt: string): Promise<Buffer | null> {
           responseModalities: ['IMAGE'],
           imageConfig: {
             aspectRatio: '1:1',
-            imageSize: '2K',
+            imageSize: '1K',
           },
         },
       }),
