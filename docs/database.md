@@ -61,6 +61,7 @@ CREATE TABLE products (
   sizes TEXT NOT NULL,           -- JSON array: '["S","M","L"]'
   colors TEXT NOT NULL,          -- JSON array: '["Black","Navy"]'
   image_url TEXT NOT NULL,
+  image_prompt_json TEXT,        -- JSON object: ImagePrompt schema for AI image generation
   stock_quantity INTEGER NOT NULL DEFAULT 0,
   weight_oz REAL NOT NULL,
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -190,9 +191,42 @@ npm run db:reset
 ```
 Runs both init and seed.
 
+## Image Prompt JSON
+
+Each product has an `image_prompt_json` column containing a structured prompt for AI image generation. See `docs/product-images-plan.md` for full details.
+
+**Example:**
+```json
+{
+  "version": 1,
+  "subject": {
+    "product": "insulated tent",
+    "variant": "fully assembled, door unzipped showing interior",
+    "color": "forest green",
+    "material": "insulated",
+    "details": ["pole structure visible", "mesh ventilation panels", "rain fly attached"]
+  },
+  "camera": {
+    "angle": "three-quarter",
+    "distance": "full",
+    "focus": "sharp focus on entire tent"
+  },
+  "lighting": { "setup": "softbox", "shadows": "soft" },
+  "style": {
+    "quality": "professional e-commerce product photography, pure white seamless background, studio lighting"
+  },
+  "technical": { "aspectRatio": "1:1", "resolution": "2K" }
+}
+```
+
+**Key points:**
+- All products in the same subcategory have identical camera, lighting, and variant settings
+- Only product-specific data varies: color, material, product name
+- Prompts are generated during seeding by the `generateImagePrompt()` function
+
 ## Important Notes
 
-- `sizes` and `colors` columns store JSON arrays as strings
+- `sizes`, `colors`, and `image_prompt_json` columns store JSON as strings
 - Parse them with `JSON.parse()` when reading
 - Stringify with `JSON.stringify()` when writing
 - The seed script uses a seeded random generator for reproducibility

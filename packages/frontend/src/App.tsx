@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Layout } from './components/layout';
 import { HomePage, ProductsPage, ProductDetailPage, CartPage } from './pages';
+import { DevInspector } from './components/dev/DevInspector';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,6 +27,7 @@ export function App() {
           </Routes>
         </Layout>
       </BrowserRouter>
+      {import.meta.env.DEV && <DevInspector />}
     </QueryClientProvider>
   );
 }
