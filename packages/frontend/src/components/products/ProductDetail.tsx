@@ -17,6 +17,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [quantity, setQuantity] = useState(1);
+  const [isPromptExpanded, setIsPromptExpanded] = useState(false);
 
   const handleAddToCart = () => {
     addItem({
@@ -158,24 +159,42 @@ export function ProductDetail({ product }: ProductDetailProps) {
         {/* Image Prompt JSON */}
         {product.imagePromptJson && (
           <div className="border-t border-gray-200 pt-6">
-            <div className="flex items-center justify-between mb-3">
+            <button
+              type="button"
+              onClick={() => setIsPromptExpanded(!isPromptExpanded)}
+              className="w-full flex items-center justify-between text-left"
+            >
               <h3 className="text-sm font-medium text-gray-900">
                 Image Prompt
               </h3>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  navigator.clipboard.writeText(JSON.stringify(product.imagePromptJson));
-                  alert('Prompt copied to clipboard!');
-                }}
+              <svg
+                className={`w-5 h-5 text-gray-500 transition-transform ${isPromptExpanded ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                Copy Prompt
-              </Button>
-            </div>
-            <pre className="bg-gray-50 rounded-lg p-4 text-xs text-gray-700 overflow-x-auto">
-              {JSON.stringify(product.imagePromptJson, null, 2)}
-            </pre>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {isPromptExpanded && (
+              <div className="mt-3">
+                <div className="flex justify-end mb-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      navigator.clipboard.writeText(JSON.stringify(product.imagePromptJson));
+                      alert('Prompt copied to clipboard!');
+                    }}
+                  >
+                    Copy Prompt
+                  </Button>
+                </div>
+                <pre className="bg-gray-50 rounded-lg p-4 text-xs text-gray-700 overflow-x-auto">
+                  {JSON.stringify(product.imagePromptJson, null, 2)}
+                </pre>
+              </div>
+            )}
           </div>
         )}
       </div>
