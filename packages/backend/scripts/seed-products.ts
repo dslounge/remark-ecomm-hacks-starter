@@ -1,5 +1,13 @@
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { db } from '../src/db/connection.js';
 import type { ImagePrompt, SubcategoryTemplate } from '@summit-gear/shared';
+
+// Load .env from project root (two levels up from scripts/)
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const rootEnvPath = path.join(__dirname, '../../../.env');
+dotenv.config({ path: rootEnvPath });
 
 // Seeded random number generator for reproducibility
 class SeededRandom {

@@ -16,3 +16,4 @@ export function generateOutfit(payload: OutfitGenerateRequest) {
 export function fetchOutfit(outfitId: number) {
   return apiClient<ApiSuccess<OutfitRecord>>(`/outfits/${outfitId}`);
 }
+
