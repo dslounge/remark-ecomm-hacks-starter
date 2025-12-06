@@ -1,3 +1,4 @@
+import Fuse from 'fuse.js';
 import { db } from '../db/connection.js';
 import type { Product, ProductFilters } from '@summit-gear/shared';
 
@@ -43,6 +44,7 @@ export class ProductService {
     sortBy: 'name' | 'price' | 'createdAt' = 'name',
     sortOrder: 'asc' | 'desc' = 'asc'
   ): { products: Product[]; total: number } {
+    const searchTerm = filters.search?.trim();
     const conditions: string[] = [];
     const params: (string | number)[] = [];
 
@@ -66,12 +68,6 @@ export class ProductService {
       params.push(filters.maxPrice);
     }
 
-    if (filters.search) {
-      conditions.push('(name LIKE ? OR description LIKE ?)');
-      const searchTerm = `%${filters.search}%`;
-      params.push(searchTerm, searchTerm);
-    }
-
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
     // Map sortBy to database column names
@@ -83,7 +79,32 @@ export class ProductService {
 
     const orderClause = `ORDER BY ${sortColumn} ${sortOrder.toUpperCase()}`;
 
-    // Get total count
+    // Run fuzzy search when a search term is present
+    if (searchTerm) {
+      const baseQuery = `SELECT * FROM products ${whereClause}`;
+      const filteredProducts = db.prepare(baseQuery).all(...params) as DbProduct[];
+      const mappedProducts = filteredProducts.map(mapDbProduct);
+
+      const fuse = new Fuse(mappedProducts, {
+        includeScore: true,
+        keys: ['name', 'colors'],
+        threshold: 0.35,
+        ignoreLocation: true,
+      });
+
+      const results = fuse.search(searchTerm);
+      const total = results.length;
+
+      const offset = (page - 1) * pageSize;
+      const paginated = results.slice(offset, offset + pageSize).map((result) => result.item);
+
+      return {
+        products: paginated,
+        total,
+      };
+    }
+
+    // Get total count when not searching
     const countQuery = `SELECT COUNT(*) as count FROM products ${whereClause}`;
     const countResult = db.prepare(countQuery).get(...params) as { count: number };
     const total = countResult.count;
