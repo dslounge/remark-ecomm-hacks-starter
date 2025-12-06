@@ -1,4 +1,5 @@
 import { db } from '../src/db/connection.js';
+import type { ImagePrompt, SubcategoryTemplate } from '@summit-gear/shared';
 
 // Seeded random number generator for reproducibility
 class SeededRandom {
@@ -65,6 +66,266 @@ const priceRanges: Record<number, { min: number; max: number }> = {
   7: { min: 1999, max: 24999 },   // Winter: $19.99 - $249.99
   8: { min: 999, max: 14999 },    // Accessories: $9.99 - $149.99
 };
+
+// =====================================================
+// SUBCATEGORY TEMPLATES FOR IMAGE PROMPTS
+// =====================================================
+
+const subcategoryTemplates: Record<string, SubcategoryTemplate> = {
+  // === CAMPING & HIKING ===
+  'Tents': {
+    variant: 'fully assembled, door unzipped showing interior',
+    camera: { angle: 'three-quarter', distance: 'full' },
+    details: ['pole structure visible', 'mesh ventilation panels', 'rain fly attached']
+  },
+  'Sleeping Bags': {
+    variant: 'partially unzipped, laid diagonally showing lining',
+    camera: { angle: 'three-quarter', distance: 'full' },
+    details: ['hood visible', 'draft collar', 'zipper detail']
+  },
+  'Backpacks': {
+    variant: 'standing upright, front view, hip belt extended',
+    camera: { angle: 'three-quarter', distance: 'full' },
+    details: ['compression straps', 'front pocket', 'load lifters visible']
+  },
+  'Trekking Poles': {
+    variant: 'pair crossed in X formation',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['adjustable locks visible', 'cork grips', 'wrist straps']
+  },
+  'Stoves': {
+    variant: 'assembled with pot supports extended, from above',
+    camera: { angle: 'top-down', distance: 'medium' },
+    details: ['burner head visible', 'control valve', 'folding legs']
+  },
+
+  // === CLIMBING ===
+  'Harnesses': {
+    variant: 'laid flat showing leg loops and waist belt spread',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['gear loops visible', 'belay loop', 'adjustable buckles']
+  },
+  'Ropes': {
+    variant: 'neatly coiled, showing rope ends',
+    camera: { angle: 'three-quarter', distance: 'medium' },
+    details: ['middle marker visible', 'rope texture', 'end caps']
+  },
+  'Carabiners': {
+    variant: 'gate open, three-quarter view',
+    camera: { angle: 'three-quarter', distance: 'close-up' },
+    details: ['gate mechanism visible', 'nose shape', 'spine detail']
+  },
+  'Chalk Bags': {
+    variant: 'standing upright, drawstring open showing fleece lining',
+    camera: { angle: 'three-quarter', distance: 'medium' },
+    details: ['fleece lining visible', 'drawstring cord', 'belt loop']
+  },
+
+  // === APPAREL ===
+  'Jackets': {
+    variant: 'laid flat, front view, partially unzipped',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['hood visible', 'chest pocket', 'cuff detail']
+  },
+  'Pants': {
+    variant: 'laid flat, front view, legs straight',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['cargo pockets visible', 'waistband', 'articulated knees']
+  },
+  'Shirts': {
+    variant: 'laid flat, front view, sleeves visible',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['collar detail', 'button placket', 'chest pocket']
+  },
+  'Base Layers': {
+    variant: 'laid flat, front view',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['fabric texture visible', 'flatlock seams', 'crew neck']
+  },
+
+  // === FOOTWEAR ===
+  'Hiking Boots': {
+    variant: 'pair, one boot angled showing tread, laces tied',
+    camera: { angle: 'three-quarter', distance: 'medium' },
+    details: ['aggressive tread pattern', 'ankle padding', 'lace hooks']
+  },
+  'Trail Runners': {
+    variant: 'pair, side profile showing cushioning',
+    camera: { angle: 'side', distance: 'medium' },
+    details: ['midsole visible', 'tread pattern', 'breathable mesh']
+  },
+  'Sandals': {
+    variant: 'pair, top-down view showing straps',
+    camera: { angle: 'top-down', distance: 'medium' },
+    details: ['adjustable straps', 'contoured footbed', 'tread pattern']
+  },
+  'Climbing Shoes': {
+    variant: 'pair, one showing rubber toe, one showing heel',
+    camera: { angle: 'three-quarter', distance: 'medium' },
+    details: ['sticky rubber toe', 'heel hook zone', 'velcro straps']
+  },
+
+  // === CYCLING ===
+  'Helmets': {
+    variant: 'three-quarter view showing vents and visor',
+    camera: { angle: 'three-quarter', distance: 'medium' },
+    details: ['ventilation channels', 'adjustment dial', 'visor']
+  },
+  'Jerseys': {
+    variant: 'laid flat, front view, showing graphics',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['full zipper', 'rear pocket openings', 'collar detail']
+  },
+  'Shorts': {
+    variant: 'laid flat, front view',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['chamois pad visible at waist', 'gripper elastic', 'side panels']
+  },
+  'Gloves': {
+    variant: 'pair, one palm up showing padding, one palm down',
+    camera: { angle: 'front', distance: 'medium' },
+    details: ['gel padding', 'velcro closure', 'knuckle protection']
+  },
+
+  // === WATER SPORTS ===
+  'Dry Bags': {
+    variant: 'standing upright, roll-top sealed',
+    camera: { angle: 'three-quarter', distance: 'full' },
+    details: ['roll-top closure', 'welded seams', 'D-ring attachment']
+  },
+  'Life Vests': {
+    variant: 'front view, buckles fastened',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['adjustable straps', 'foam panels', 'whistle attachment']
+  },
+  'Wetsuits': {
+    variant: 'laid flat, front view',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['chest zip visible', 'sealed seams', 'knee pads']
+  },
+  'Rashguards': {
+    variant: 'laid flat, front view showing graphics',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['flatlock seams', 'tagless collar', 'fabric texture']
+  },
+
+  // === WINTER SPORTS ===
+  'Goggles': {
+    variant: 'front view showing lens, strap extended',
+    camera: { angle: 'front', distance: 'medium' },
+    details: ['dual lens visible', 'foam padding', 'adjustable strap']
+  },
+  'Beanies': {
+    variant: 'standing upright on invisible form',
+    camera: { angle: 'three-quarter', distance: 'medium' },
+    details: ['knit pattern visible', 'fold-up cuff', 'fabric texture']
+  },
+  'Neck Gaiters': {
+    variant: 'standing upright in tube form',
+    camera: { angle: 'three-quarter', distance: 'medium' },
+    details: ['fabric pattern visible', 'seam detail', 'breathable mesh']
+  },
+
+  // === ACCESSORIES ===
+  'Headlamps': {
+    variant: 'front view, light off, strap extended flat',
+    camera: { angle: 'front', distance: 'close-up' },
+    details: ['LED array visible', 'power button', 'adjustable strap']
+  },
+  'Water Bottles': {
+    variant: 'standing upright, cap on',
+    camera: { angle: 'three-quarter', distance: 'medium' },
+    details: ['cap mechanism', 'volume markings', 'grip texture']
+  },
+  'Multi-tools': {
+    variant: 'partially opened showing several tools',
+    camera: { angle: 'three-quarter', distance: 'close-up' },
+    details: ['knife blade', 'pliers head', 'screwdriver tips']
+  },
+  'First Aid': {
+    variant: 'closed case, front view with logo visible',
+    camera: { angle: 'front', distance: 'medium' },
+    details: ['red cross symbol', 'zipper detail', 'carrying handle']
+  },
+  'Sunglasses': {
+    variant: 'front view, temples folded',
+    camera: { angle: 'front', distance: 'close-up' },
+    details: ['lens gradient visible', 'frame detail', 'nose pads']
+  }
+};
+
+// =====================================================
+// IMAGE PROMPT GENERATION
+// =====================================================
+
+function generateImagePrompt(
+  subcategory: string,
+  material: string,
+  colors: string[]
+): ImagePrompt {
+  const template = subcategoryTemplates[subcategory];
+
+  if (!template) {
+    // Fallback for any missing subcategories
+    return {
+      version: 1,
+      subject: {
+        product: `${material.toLowerCase()} ${subcategory.toLowerCase()}`,
+        variant: 'front view',
+        color: colors[0].toLowerCase(),
+        material: material.toLowerCase(),
+        details: []
+      },
+      camera: {
+        angle: 'front',
+        distance: 'full',
+        focus: `sharp focus on entire product`
+      },
+      lighting: {
+        setup: 'softbox',
+        shadows: 'soft'
+      },
+      style: {
+        quality: 'professional e-commerce product photography, pure white seamless background, studio lighting'
+      },
+      technical: {
+        aspectRatio: '1:1',
+        resolution: '2K'
+      }
+    };
+  }
+
+  const primaryColor = colors[0];
+  // Singularize the subcategory for product type
+  const productType = subcategory.replace(/s$/, '').toLowerCase();
+
+  return {
+    version: 1,
+    subject: {
+      product: `${material.toLowerCase()} ${productType}`,
+      variant: template.variant,
+      color: primaryColor.toLowerCase(),
+      material: material.toLowerCase(),
+      details: template.details
+    },
+    camera: {
+      angle: template.camera.angle,
+      distance: template.camera.distance,
+      focus: `sharp focus on entire ${productType}`
+    },
+    lighting: {
+      setup: 'softbox',
+      shadows: 'soft'
+    },
+    style: {
+      quality: 'professional e-commerce product photography, pure white seamless background, studio lighting'
+    },
+    technical: {
+      aspectRatio: '1:1',
+      resolution: '2K'
+    }
+  };
+}
 
 // Product distribution
 const productDistribution = [
@@ -174,9 +435,9 @@ console.log('Seeding products...');
 const insertProduct = db.prepare(`
   INSERT INTO products (
     sku, name, description, category_id, subcategory,
-    price_in_cents, sizes, colors, image_url, stock_quantity,
-    weight_oz, created_at
-  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    price_in_cents, sizes, colors, image_url, image_prompt_json,
+    stock_quantity, weight_oz, created_at
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `);
 
 let totalProducts = 0;
@@ -210,6 +471,10 @@ for (const config of productDistribution) {
       Date.now() - rng.range(0, 365) * 24 * 60 * 60 * 1000
     ).toISOString();
 
+    // Generate image prompt JSON
+    const imagePrompt = generateImagePrompt(config.subcategory, material, colors);
+    const imagePromptJson = JSON.stringify(imagePrompt);
+
     insertProduct.run(
       sku,
       name,
@@ -220,6 +485,7 @@ for (const config of productDistribution) {
       JSON.stringify(sizes),
       JSON.stringify(colors),
       imageUrl,
+      imagePromptJson,
       stockQuantity,
       weightOz,
       createdAt
@@ -229,8 +495,13 @@ for (const config of productDistribution) {
   }
 }
 
-console.log(`Successfully seeded ${totalProducts} products!`);
+console.log(`Successfully seeded ${totalProducts} products with image prompts!`);
 
 // Verify count
 const count = db.prepare('SELECT COUNT(*) as count FROM products').get() as { count: number };
 console.log(`Database now contains ${count.count} products.`);
+
+// Show sample prompt
+const sampleProduct = db.prepare('SELECT name, image_prompt_json FROM products LIMIT 1').get() as { name: string; image_prompt_json: string };
+console.log(`\nSample image prompt for "${sampleProduct.name}":`);
+console.log(JSON.parse(sampleProduct.image_prompt_json));

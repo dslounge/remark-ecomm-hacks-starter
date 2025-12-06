@@ -12,7 +12,8 @@ packages/shared/
 │       ├── product.ts     # Product types
 │       ├── category.ts    # Category types
 │       ├── cart.ts        # Cart types
-│       └── api.ts         # API response types
+│       ├── api.ts         # API response types
+│       └── image-prompt.ts # Image generation prompt types
 └── dist/                  # Compiled output
 ```
 
@@ -20,7 +21,7 @@ packages/shared/
 
 ```typescript
 // In backend or frontend
-import type { Product, Category, CartItem } from '@summit-gear/shared';
+import type { Product, Category, CartItem, ImagePrompt } from '@summit-gear/shared';
 import { CATEGORIES } from '@summit-gear/shared';
 ```
 
@@ -215,6 +216,63 @@ export interface ApiError {
 //   message: "Product with id 999 not found",
 //   statusCode: 404
 // }
+```
+
+---
+
+## Image Prompt Types
+
+### ImagePrompt
+
+Used for AI-generated product images. See `docs/product-images-plan.md` for full details.
+
+```typescript
+export interface ImagePrompt {
+  version: 1;
+
+  subject: {
+    product: string;           // "gore-tex tent"
+    variant: string;           // "fully assembled, door unzipped"
+    color: string;             // "forest green"
+    material?: string;         // "gore-tex"
+    details?: string[];        // ["pole structure visible"]
+  };
+
+  camera: {
+    angle: 'front' | 'three-quarter' | 'side' | 'top-down' | 'low';
+    distance: 'close-up' | 'medium' | 'full';
+    focus: string;             // "sharp focus on entire tent"
+  };
+
+  lighting: {
+    setup: 'softbox' | 'diffused' | 'rim-accent';
+    shadows: 'soft' | 'minimal' | 'none';
+  };
+
+  style: {
+    quality: string;           // "professional e-commerce product photography..."
+  };
+
+  technical: {
+    aspectRatio: '1:1';
+    resolution: '2K';
+  };
+}
+```
+
+### SubcategoryTemplate
+
+Template for consistent image generation per subcategory:
+
+```typescript
+export interface SubcategoryTemplate {
+  variant: string;
+  camera: {
+    angle: 'front' | 'three-quarter' | 'side' | 'top-down' | 'low';
+    distance: 'close-up' | 'medium' | 'full';
+  };
+  details: string[];
+}
 ```
 
 ---
