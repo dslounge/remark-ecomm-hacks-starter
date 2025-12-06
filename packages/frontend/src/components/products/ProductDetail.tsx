@@ -154,6 +154,30 @@ export function ProductDetail({ product }: ProductDetailProps) {
             </div>
           </dl>
         </div>
+
+        {/* Image Prompt JSON */}
+        {product.imagePromptJson && (
+          <div className="border-t border-gray-200 pt-6">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-medium text-gray-900">
+                Image Prompt
+              </h3>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  navigator.clipboard.writeText(JSON.stringify(product.imagePromptJson));
+                  alert('Prompt copied to clipboard!');
+                }}
+              >
+                Copy Prompt
+              </Button>
+            </div>
+            <pre className="bg-gray-50 rounded-lg p-4 text-xs text-gray-700 overflow-x-auto">
+              {JSON.stringify(product.imagePromptJson, null, 2)}
+            </pre>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -34,37 +34,30 @@ class SeededRandom {
 
 const rng = new SeededRandom(42);
 
-// Data pools
+// Data pools - clothing focused
 const brands = ['Summit', 'Alpine', 'Trailhead', 'Ridgeline', 'Basecamp', 'Vertex', 'Pinnacle', 'Expedition', 'Traverse', 'Wildland'];
-const materials = ['Gore-Tex', 'Down', 'Merino', 'Carbon', 'Titanium', 'Ultralight', 'Ripstop', 'Breathable', 'Insulated', 'Waterproof'];
+const materials = ['Merino Wool', 'Fleece', 'Down', 'Softshell', 'Gore-Tex', 'Ripstop', 'Stretch', 'Insulated', 'Breathable', 'DWR-Coated'];
 const suffixes = ['Pro', 'Elite', 'Lite', 'X2', 'Plus', 'Classic', 'Sport', 'Tech'];
 
 const sizeConfigs = {
   clothing: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-  footwear: ['7', '8', '9', '10', '11', '12', '13'],
-  tents: ['1P', '2P', '3P', '4P'],
-  backpacks: ['S/M', 'M/L', 'L/XL'],
-  sleepingBags: ['Regular', 'Long'],
   oneSize: ['One Size'],
-  ropes: ['30m', '40m', '50m', '60m', '70m'],
 };
 
 const colorPools = {
   outdoor: ['Forest Green', 'Slate Blue', 'Burnt Orange', 'Stone Gray', 'Deep Navy'],
-  neutral: ['Black', 'Charcoal', 'Olive'],
+  neutral: ['Black', 'Charcoal', 'Olive', 'Cream', 'Burgundy'],
 };
 
 const allColors = [...colorPools.outdoor, ...colorPools.neutral];
 
-const priceRanges: Record<number, { min: number; max: number }> = {
-  1: { min: 2999, max: 59999 },   // Camping: $29.99 - $599.99
-  2: { min: 1499, max: 29999 },   // Climbing: $14.99 - $299.99
-  3: { min: 3999, max: 34999 },   // Apparel: $39.99 - $349.99
-  4: { min: 7999, max: 24999 },   // Footwear: $79.99 - $249.99
-  5: { min: 2499, max: 19999 },   // Cycling: $24.99 - $199.99
-  6: { min: 1999, max: 39999 },   // Water: $19.99 - $399.99
-  7: { min: 1999, max: 24999 },   // Winter: $19.99 - $249.99
-  8: { min: 999, max: 14999 },    // Accessories: $9.99 - $149.99
+// All clothing falls under category 1 (Apparel)
+const priceRanges: Record<string, { min: number; max: number }> = {
+  'outerwear': { min: 12999, max: 34999 },   // $129.99 - $349.99
+  'tops': { min: 3999, max: 9999 },          // $39.99 - $99.99
+  'bottoms': { min: 5999, max: 14999 },      // $59.99 - $149.99
+  'base_layers': { min: 4999, max: 8999 },   // $49.99 - $89.99
+  'accessories': { min: 1999, max: 4999 },   // $19.99 - $49.99
 };
 
 // =====================================================
@@ -72,185 +65,144 @@ const priceRanges: Record<number, { min: number; max: number }> = {
 // =====================================================
 
 const subcategoryTemplates: Record<string, SubcategoryTemplate> = {
-  // === CAMPING & HIKING ===
-  'Tents': {
-    variant: 'fully assembled, door unzipped showing interior',
-    camera: { angle: 'three-quarter', distance: 'full' },
-    details: ['pole structure visible', 'mesh ventilation panels', 'rain fly attached']
-  },
-  'Sleeping Bags': {
-    variant: 'partially unzipped, laid diagonally showing lining',
-    camera: { angle: 'three-quarter', distance: 'full' },
-    details: ['hood visible', 'draft collar', 'zipper detail']
-  },
-  'Backpacks': {
-    variant: 'standing upright, front view, hip belt extended',
-    camera: { angle: 'three-quarter', distance: 'full' },
-    details: ['compression straps', 'front pocket', 'load lifters visible']
-  },
-  'Trekking Poles': {
-    variant: 'pair crossed in X formation',
+  // === OUTERWEAR ===
+  'Rain Jackets': {
+    variant: 'laid flat, front view, hood visible, partially unzipped',
     camera: { angle: 'front', distance: 'full' },
-    details: ['adjustable locks visible', 'cork grips', 'wrist straps']
+    details: ['sealed seams visible', 'adjustable hood', 'pit zips', 'storm flap']
   },
-  'Stoves': {
-    variant: 'assembled with pot supports extended, from above',
-    camera: { angle: 'top-down', distance: 'medium' },
-    details: ['burner head visible', 'control valve', 'folding legs']
+  'Insulated Jackets': {
+    variant: 'laid flat, front view, showing quilted pattern',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['baffle construction visible', 'insulated hood', 'hand warmer pockets', 'elastic cuffs']
+  },
+  'Softshell Jackets': {
+    variant: 'laid flat, front view, sleeves extended',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['stretchy fabric texture', 'zippered chest pocket', 'articulated sleeves', 'chin guard']
+  },
+  'Fleece Jackets': {
+    variant: 'laid flat, front view, showing plush texture',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['fleece texture visible', 'zippered pockets', 'elastic binding', 'full-zip front']
+  },
+  'Vests': {
+    variant: 'laid flat, front view, showing armholes',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['insulated body', 'zippered pockets', 'stand-up collar', 'elastic hem']
   },
 
-  // === CLIMBING ===
-  'Harnesses': {
-    variant: 'laid flat showing leg loops and waist belt spread',
-    camera: { angle: 'front', distance: 'full' },
-    details: ['gear loops visible', 'belay loop', 'adjustable buckles']
-  },
-  'Ropes': {
-    variant: 'neatly coiled, showing rope ends',
-    camera: { angle: 'three-quarter', distance: 'medium' },
-    details: ['middle marker visible', 'rope texture', 'end caps']
-  },
-  'Carabiners': {
-    variant: 'gate open, three-quarter view',
-    camera: { angle: 'three-quarter', distance: 'close-up' },
-    details: ['gate mechanism visible', 'nose shape', 'spine detail']
-  },
-  'Chalk Bags': {
-    variant: 'standing upright, drawstring open showing fleece lining',
-    camera: { angle: 'three-quarter', distance: 'medium' },
-    details: ['fleece lining visible', 'drawstring cord', 'belt loop']
-  },
-
-  // === APPAREL ===
-  'Jackets': {
-    variant: 'laid flat, front view, partially unzipped',
-    camera: { angle: 'front', distance: 'full' },
-    details: ['hood visible', 'chest pocket', 'cuff detail']
-  },
-  'Pants': {
-    variant: 'laid flat, front view, legs straight',
-    camera: { angle: 'front', distance: 'full' },
-    details: ['cargo pockets visible', 'waistband', 'articulated knees']
-  },
-  'Shirts': {
+  // === TOPS ===
+  'T-Shirts': {
     variant: 'laid flat, front view, sleeves visible',
     camera: { angle: 'front', distance: 'full' },
-    details: ['collar detail', 'button placket', 'chest pocket']
+    details: ['crew neck', 'relaxed fit', 'tagless label', 'reinforced shoulder seams']
   },
-  'Base Layers': {
-    variant: 'laid flat, front view',
+  'Long Sleeve Shirts': {
+    variant: 'laid flat, front view, sleeves extended',
     camera: { angle: 'front', distance: 'full' },
-    details: ['fabric texture visible', 'flatlock seams', 'crew neck']
+    details: ['button placket', 'roll-up sleeve tabs', 'chest pocket', 'UPF rating label']
+  },
+  'Polo Shirts': {
+    variant: 'laid flat, front view, collar visible',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['ribbed collar', 'three-button placket', 'side vents', 'moisture-wicking fabric']
+  },
+  'Hoodies': {
+    variant: 'laid flat, front view, hood spread out',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['adjustable drawcord hood', 'kangaroo pocket', 'ribbed cuffs', 'full-zip or pullover']
+  },
+  'Sweaters': {
+    variant: 'laid flat, front view, showing knit pattern',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['knit texture visible', 'crew or v-neck', 'ribbed hem', 'shoulder seam detail']
+  },
+  'Quarter-Zip Pullovers': {
+    variant: 'laid flat, front view, zipper partially open',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['quarter-zip collar', 'chin guard', 'raglan sleeves', 'thumbhole cuffs']
   },
 
-  // === FOOTWEAR ===
-  'Hiking Boots': {
-    variant: 'pair, one boot angled showing tread, laces tied',
-    camera: { angle: 'three-quarter', distance: 'medium' },
-    details: ['aggressive tread pattern', 'ankle padding', 'lace hooks']
-  },
-  'Trail Runners': {
-    variant: 'pair, side profile showing cushioning',
-    camera: { angle: 'side', distance: 'medium' },
-    details: ['midsole visible', 'tread pattern', 'breathable mesh']
-  },
-  'Sandals': {
-    variant: 'pair, top-down view showing straps',
-    camera: { angle: 'top-down', distance: 'medium' },
-    details: ['adjustable straps', 'contoured footbed', 'tread pattern']
-  },
-  'Climbing Shoes': {
-    variant: 'pair, one showing rubber toe, one showing heel',
-    camera: { angle: 'three-quarter', distance: 'medium' },
-    details: ['sticky rubber toe', 'heel hook zone', 'velcro straps']
-  },
-
-  // === CYCLING ===
-  'Helmets': {
-    variant: 'three-quarter view showing vents and visor',
-    camera: { angle: 'three-quarter', distance: 'medium' },
-    details: ['ventilation channels', 'adjustment dial', 'visor']
-  },
-  'Jerseys': {
-    variant: 'laid flat, front view, showing graphics',
+  // === BOTTOMS ===
+  'Hiking Pants': {
+    variant: 'laid flat, front view, legs straight',
     camera: { angle: 'front', distance: 'full' },
-    details: ['full zipper', 'rear pocket openings', 'collar detail']
+    details: ['cargo pockets visible', 'articulated knees', 'belt loops', 'gusseted crotch']
+  },
+  'Cargo Pants': {
+    variant: 'laid flat, front view, showing cargo pockets',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['large cargo pockets', 'reinforced seat', 'adjustable waist', 'zip-off legs']
   },
   'Shorts': {
     variant: 'laid flat, front view',
     camera: { angle: 'front', distance: 'full' },
-    details: ['chamois pad visible at waist', 'gripper elastic', 'side panels']
+    details: ['zippered pockets', 'elastic waistband', 'built-in brief', 'reflective details']
   },
-  'Gloves': {
-    variant: 'pair, one palm up showing padding, one palm down',
-    camera: { angle: 'front', distance: 'medium' },
-    details: ['gel padding', 'velcro closure', 'knuckle protection']
+  'Joggers': {
+    variant: 'laid flat, front view, showing tapered legs',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['elastic cuffs', 'drawstring waist', 'side pockets', 'relaxed fit']
+  },
+  'Leggings': {
+    variant: 'laid flat, front view, legs together',
+    camera: { angle: 'front', distance: 'full' },
+    details: ['high waistband', 'compression fit', 'hidden pocket', 'flatlock seams']
   },
 
-  // === WATER SPORTS ===
-  'Dry Bags': {
-    variant: 'standing upright, roll-top sealed',
-    camera: { angle: 'three-quarter', distance: 'full' },
-    details: ['roll-top closure', 'welded seams', 'D-ring attachment']
-  },
-  'Life Vests': {
-    variant: 'front view, buckles fastened',
+  // === BASE LAYERS ===
+  'Base Layer Tops': {
+    variant: 'laid flat, front view, showing fabric texture',
     camera: { angle: 'front', distance: 'full' },
-    details: ['adjustable straps', 'foam panels', 'whistle attachment']
+    details: ['crew neck', 'flatlock seams', 'moisture-wicking fabric', 'thumbhole cuffs']
   },
-  'Wetsuits': {
-    variant: 'laid flat, front view',
+  'Base Layer Bottoms': {
+    variant: 'laid flat, front view, legs straight',
     camera: { angle: 'front', distance: 'full' },
-    details: ['chest zip visible', 'sealed seams', 'knee pads']
-  },
-  'Rashguards': {
-    variant: 'laid flat, front view showing graphics',
-    camera: { angle: 'front', distance: 'full' },
-    details: ['flatlock seams', 'tagless collar', 'fabric texture']
+    details: ['elastic waistband', 'flatlock seams', 'four-way stretch', 'odor control']
   },
 
-  // === WINTER SPORTS ===
-  'Goggles': {
-    variant: 'front view showing lens, strap extended',
-    camera: { angle: 'front', distance: 'medium' },
-    details: ['dual lens visible', 'foam padding', 'adjustable strap']
-  },
+  // === ACCESSORIES ===
   'Beanies': {
     variant: 'standing upright on invisible form',
     camera: { angle: 'three-quarter', distance: 'medium' },
-    details: ['knit pattern visible', 'fold-up cuff', 'fabric texture']
+    details: ['knit pattern visible', 'fold-up cuff', 'fleece lining', 'embroidered logo']
+  },
+  'Baseball Caps': {
+    variant: 'three-quarter view showing crown and brim',
+    camera: { angle: 'three-quarter', distance: 'medium' },
+    details: ['curved brim', 'adjustable strap', 'ventilation eyelets', 'structured crown']
+  },
+  'Sun Hats': {
+    variant: 'top-down view showing wide brim',
+    camera: { angle: 'top-down', distance: 'medium' },
+    details: ['wide brim', 'chin strap', 'UPF protection', 'moisture-wicking sweatband']
+  },
+  'Gloves': {
+    variant: 'pair, one palm up showing grip, one palm down',
+    camera: { angle: 'front', distance: 'medium' },
+    details: ['touchscreen fingertips', 'fleece lining', 'adjustable wrist', 'grip pattern']
   },
   'Neck Gaiters': {
     variant: 'standing upright in tube form',
     camera: { angle: 'three-quarter', distance: 'medium' },
-    details: ['fabric pattern visible', 'seam detail', 'breathable mesh']
+    details: ['seamless construction', 'moisture-wicking', 'UPF protection', 'multiple wear styles']
   },
-
-  // === ACCESSORIES ===
-  'Headlamps': {
-    variant: 'front view, light off, strap extended flat',
-    camera: { angle: 'front', distance: 'close-up' },
-    details: ['LED array visible', 'power button', 'adjustable strap']
+  'Scarves': {
+    variant: 'draped in loose S-curve showing fabric',
+    camera: { angle: 'three-quarter', distance: 'full' },
+    details: ['fringe ends', 'woven texture', 'soft hand feel', 'generous length']
   },
-  'Water Bottles': {
-    variant: 'standing upright, cap on',
-    camera: { angle: 'three-quarter', distance: 'medium' },
-    details: ['cap mechanism', 'volume markings', 'grip texture']
-  },
-  'Multi-tools': {
-    variant: 'partially opened showing several tools',
-    camera: { angle: 'three-quarter', distance: 'close-up' },
-    details: ['knife blade', 'pliers head', 'screwdriver tips']
-  },
-  'First Aid': {
-    variant: 'closed case, front view with logo visible',
+  'Socks': {
+    variant: 'pair, laid flat side by side',
     camera: { angle: 'front', distance: 'medium' },
-    details: ['red cross symbol', 'zipper detail', 'carrying handle']
+    details: ['cushioned sole', 'arch support', 'reinforced heel and toe', 'moisture management']
   },
-  'Sunglasses': {
-    variant: 'front view, temples folded',
-    camera: { angle: 'front', distance: 'close-up' },
-    details: ['lens gradient visible', 'frame detail', 'nose pads']
+  'Belts': {
+    variant: 'coiled in loose circle showing buckle',
+    camera: { angle: 'three-quarter', distance: 'medium' },
+    details: ['metal buckle', 'webbing material', 'adjustable fit', 'bottle opener buckle']
   }
 };
 
@@ -327,99 +279,87 @@ function generateImagePrompt(
   };
 }
 
-// Product distribution
+// Product distribution - ALL CLOTHING (100 products)
+// Category IDs: 1=Outerwear, 2=Tops, 3=Bottoms, 4=Base Layers, 5=Accessories
 const productDistribution = [
-  // Camping & Hiking (18)
-  { categoryId: 1, subcategory: 'Tents', count: 4, sizes: sizeConfigs.tents },
-  { categoryId: 1, subcategory: 'Sleeping Bags', count: 4, sizes: sizeConfigs.sleepingBags },
-  { categoryId: 1, subcategory: 'Backpacks', count: 5, sizes: sizeConfigs.backpacks },
-  { categoryId: 1, subcategory: 'Trekking Poles', count: 2, sizes: sizeConfigs.oneSize },
-  { categoryId: 1, subcategory: 'Stoves', count: 3, sizes: sizeConfigs.oneSize },
+  // Outerwear (20 products) - Category 1
+  { categoryId: 1, subcategory: 'Rain Jackets', count: 5, sizes: sizeConfigs.clothing, priceType: 'outerwear' },
+  { categoryId: 1, subcategory: 'Insulated Jackets', count: 5, sizes: sizeConfigs.clothing, priceType: 'outerwear' },
+  { categoryId: 1, subcategory: 'Softshell Jackets', count: 4, sizes: sizeConfigs.clothing, priceType: 'outerwear' },
+  { categoryId: 1, subcategory: 'Fleece Jackets', count: 3, sizes: sizeConfigs.clothing, priceType: 'outerwear' },
+  { categoryId: 1, subcategory: 'Vests', count: 3, sizes: sizeConfigs.clothing, priceType: 'outerwear' },
 
-  // Climbing (10)
-  { categoryId: 2, subcategory: 'Harnesses', count: 3, sizes: sizeConfigs.clothing },
-  { categoryId: 2, subcategory: 'Ropes', count: 2, sizes: sizeConfigs.ropes },
-  { categoryId: 2, subcategory: 'Carabiners', count: 2, sizes: sizeConfigs.oneSize },
-  { categoryId: 2, subcategory: 'Chalk Bags', count: 3, sizes: sizeConfigs.oneSize },
+  // Tops (25 products) - Category 2
+  { categoryId: 2, subcategory: 'T-Shirts', count: 6, sizes: sizeConfigs.clothing, priceType: 'tops' },
+  { categoryId: 2, subcategory: 'Long Sleeve Shirts', count: 5, sizes: sizeConfigs.clothing, priceType: 'tops' },
+  { categoryId: 2, subcategory: 'Polo Shirts', count: 4, sizes: sizeConfigs.clothing, priceType: 'tops' },
+  { categoryId: 2, subcategory: 'Hoodies', count: 5, sizes: sizeConfigs.clothing, priceType: 'tops' },
+  { categoryId: 2, subcategory: 'Sweaters', count: 3, sizes: sizeConfigs.clothing, priceType: 'tops' },
+  { categoryId: 2, subcategory: 'Quarter-Zip Pullovers', count: 2, sizes: sizeConfigs.clothing, priceType: 'tops' },
 
-  // Apparel (20)
-  { categoryId: 3, subcategory: 'Jackets', count: 6, sizes: sizeConfigs.clothing },
-  { categoryId: 3, subcategory: 'Pants', count: 5, sizes: sizeConfigs.clothing },
-  { categoryId: 3, subcategory: 'Shirts', count: 5, sizes: sizeConfigs.clothing },
-  { categoryId: 3, subcategory: 'Base Layers', count: 4, sizes: sizeConfigs.clothing },
+  // Bottoms (20 products) - Category 3
+  { categoryId: 3, subcategory: 'Hiking Pants', count: 5, sizes: sizeConfigs.clothing, priceType: 'bottoms' },
+  { categoryId: 3, subcategory: 'Cargo Pants', count: 4, sizes: sizeConfigs.clothing, priceType: 'bottoms' },
+  { categoryId: 3, subcategory: 'Shorts', count: 4, sizes: sizeConfigs.clothing, priceType: 'bottoms' },
+  { categoryId: 3, subcategory: 'Joggers', count: 4, sizes: sizeConfigs.clothing, priceType: 'bottoms' },
+  { categoryId: 3, subcategory: 'Leggings', count: 3, sizes: sizeConfigs.clothing, priceType: 'bottoms' },
 
-  // Footwear (12)
-  { categoryId: 4, subcategory: 'Hiking Boots', count: 4, sizes: sizeConfigs.footwear },
-  { categoryId: 4, subcategory: 'Trail Runners', count: 4, sizes: sizeConfigs.footwear },
-  { categoryId: 4, subcategory: 'Sandals', count: 2, sizes: sizeConfigs.footwear },
-  { categoryId: 4, subcategory: 'Climbing Shoes', count: 2, sizes: sizeConfigs.footwear },
+  // Base Layers (10 products) - Category 4
+  { categoryId: 4, subcategory: 'Base Layer Tops', count: 5, sizes: sizeConfigs.clothing, priceType: 'base_layers' },
+  { categoryId: 4, subcategory: 'Base Layer Bottoms', count: 5, sizes: sizeConfigs.clothing, priceType: 'base_layers' },
 
-  // Cycling (10)
-  { categoryId: 5, subcategory: 'Helmets', count: 3, sizes: sizeConfigs.clothing },
-  { categoryId: 5, subcategory: 'Jerseys', count: 3, sizes: sizeConfigs.clothing },
-  { categoryId: 5, subcategory: 'Shorts', count: 2, sizes: sizeConfigs.clothing },
-  { categoryId: 5, subcategory: 'Gloves', count: 2, sizes: sizeConfigs.clothing },
-
-  // Water Sports (10)
-  { categoryId: 6, subcategory: 'Dry Bags', count: 3, sizes: sizeConfigs.oneSize },
-  { categoryId: 6, subcategory: 'Life Vests', count: 2, sizes: sizeConfigs.clothing },
-  { categoryId: 6, subcategory: 'Wetsuits', count: 3, sizes: sizeConfigs.clothing },
-  { categoryId: 6, subcategory: 'Rashguards', count: 2, sizes: sizeConfigs.clothing },
-
-  // Winter Sports (10)
-  { categoryId: 7, subcategory: 'Goggles', count: 3, sizes: sizeConfigs.oneSize },
-  { categoryId: 7, subcategory: 'Gloves', count: 3, sizes: sizeConfigs.clothing },
-  { categoryId: 7, subcategory: 'Beanies', count: 2, sizes: sizeConfigs.oneSize },
-  { categoryId: 7, subcategory: 'Neck Gaiters', count: 2, sizes: sizeConfigs.oneSize },
-
-  // Accessories (10)
-  { categoryId: 8, subcategory: 'Headlamps', count: 2, sizes: sizeConfigs.oneSize },
-  { categoryId: 8, subcategory: 'Water Bottles', count: 2, sizes: sizeConfigs.oneSize },
-  { categoryId: 8, subcategory: 'Multi-tools', count: 2, sizes: sizeConfigs.oneSize },
-  { categoryId: 8, subcategory: 'First Aid', count: 2, sizes: sizeConfigs.oneSize },
-  { categoryId: 8, subcategory: 'Sunglasses', count: 2, sizes: sizeConfigs.oneSize },
+  // Accessories (25 products) - Category 5
+  { categoryId: 5, subcategory: 'Beanies', count: 4, sizes: sizeConfigs.oneSize, priceType: 'accessories' },
+  { categoryId: 5, subcategory: 'Baseball Caps', count: 4, sizes: sizeConfigs.oneSize, priceType: 'accessories' },
+  { categoryId: 5, subcategory: 'Sun Hats', count: 3, sizes: sizeConfigs.oneSize, priceType: 'accessories' },
+  { categoryId: 5, subcategory: 'Gloves', count: 4, sizes: sizeConfigs.clothing, priceType: 'accessories' },
+  { categoryId: 5, subcategory: 'Neck Gaiters', count: 3, sizes: sizeConfigs.oneSize, priceType: 'accessories' },
+  { categoryId: 5, subcategory: 'Scarves', count: 2, sizes: sizeConfigs.oneSize, priceType: 'accessories' },
+  { categoryId: 5, subcategory: 'Socks', count: 3, sizes: sizeConfigs.clothing, priceType: 'accessories' },
+  { categoryId: 5, subcategory: 'Belts', count: 2, sizes: sizeConfigs.oneSize, priceType: 'accessories' },
 ];
 
-function generateSKU(categoryId: number, index: number): string {
-  const prefix = ['CMP', 'CLM', 'APP', 'FTW', 'CYC', 'WTR', 'WNT', 'ACC'][categoryId - 1];
-  return `${prefix}-${String(index).padStart(4, '0')}`;
+function generateSKU(index: number): string {
+  return `CLO-${String(index).padStart(4, '0')}`;
 }
 
 function generateDescription(productType: string, material: string): string {
   const descriptions: Record<string, string> = {
-    'Tents': `Premium ${material.toLowerCase()} tent designed for all-season camping. Features durable construction, easy setup, and excellent weather protection. Perfect for backpacking and car camping adventures.`,
-    'Sleeping Bags': `High-performance ${material.toLowerCase()} sleeping bag offering exceptional warmth and comfort. Lightweight and compressible for easy packing. Ideal for three-season camping.`,
-    'Backpacks': `Ergonomic ${material.toLowerCase()} backpack with advanced suspension system and ample storage. Features multiple compartments, hydration compatibility, and rain cover included.`,
-    'Trekking Poles': `Lightweight ${material.toLowerCase()} trekking poles with adjustable length and shock absorption. Provides stability and reduces strain on knees during long hikes.`,
-    'Stoves': `Compact ${material.toLowerCase()} camping stove with efficient fuel consumption and fast boil times. Includes piezo ignition and wind protection.`,
-    'Harnesses': `Professional-grade ${material.toLowerCase()} climbing harness with reinforced tie-in points and adjustable leg loops. Comfortable for all-day wear.`,
-    'Ropes': `Dynamic ${material.toLowerCase()} climbing rope meeting UIAA safety standards. Excellent handling characteristics and durability for sport and trad climbing.`,
-    'Carabiners': `Ultra-strong ${material.toLowerCase()} carabiner with smooth gate action. Certified for climbing and rescue operations.`,
-    'Chalk Bags': `Practical ${material.toLowerCase()} chalk bag with fleece lining and drawstring closure. Includes adjustable waist belt.`,
-    'Jackets': `Technical ${material.toLowerCase()} jacket providing superior weather protection. Features fully sealed seams, adjustable hood, and pit zips for ventilation.`,
-    'Pants': `Durable ${material.toLowerCase()} pants built for outdoor performance. Quick-drying fabric with articulated knees and reinforced seat and knees.`,
-    'Shirts': `Moisture-wicking ${material.toLowerCase()} shirt perfect for active pursuits. Anti-odor treatment and UPF sun protection.`,
-    'Base Layers': `Thermal ${material.toLowerCase()} base layer providing warmth without bulk. Flatlock seams prevent chafing during high-output activities.`,
-    'Hiking Boots': `Rugged ${material.toLowerCase()} hiking boots with ankle support and aggressive tread. Waterproof construction keeps feet dry on any trail.`,
-    'Trail Runners': `Lightweight ${material.toLowerCase()} trail running shoes with responsive cushioning. Superior traction and quick-draining design.`,
-    'Sandals': `Versatile ${material.toLowerCase()} sandals with contoured footbed and adjustable straps. Perfect for camp, water crossings, and casual wear.`,
-    'Climbing Shoes': `Precision ${material.toLowerCase()} climbing shoes with sticky rubber and asymmetric last. Excels on vertical terrain and overhangs.`,
-    'Helmets': `Aerodynamic ${material.toLowerCase()} cycling helmet with in-mold construction. Multiple vents for cooling and MIPS technology for added protection.`,
-    'Jerseys': `Performance ${material.toLowerCase()} cycling jersey with full-length zipper and rear pockets. Moisture management and reflective details.`,
-    'Shorts': `Padded ${material.toLowerCase()} cycling shorts with ergonomic chamois. Flatlock seams and gripper elastic at leg openings.`,
-    'Gloves': `Protective ${material.toLowerCase()} gloves with padded palms and touchscreen-compatible fingertips. Breathable construction for all-day comfort.`,
-    'Dry Bags': `Waterproof ${material.toLowerCase()} dry bag with roll-top closure. Keeps gear dry during kayaking, rafting, and boat trips.`,
-    'Life Vests': `Coast Guard approved ${material.toLowerCase()} life vest with secure buckles and D-ring. Comfortable fit doesn't restrict movement.`,
-    'Wetsuits': `Premium ${material.toLowerCase()} wetsuit with flatlock seams and flexible panels. Provides thermal protection for water sports.`,
-    'Rashguards': `Quick-drying ${material.toLowerCase()} rashguard with UPF 50+ sun protection. Flatlock seams and athletic fit.`,
-    'Goggles': `Anti-fog ${material.toLowerCase()} goggles with interchangeable lenses. Wide field of view and comfortable foam padding.`,
-    'Beanies': `Warm ${material.toLowerCase()} beanie with fold-up cuff. Soft, stretchy fabric provides all-day comfort.`,
-    'Neck Gaiters': `Versatile ${material.toLowerCase()} neck gaiter for wind and cold protection. Can be worn multiple ways.`,
-    'Headlamps': `Powerful ${material.toLowerCase()} headlamp with multiple brightness modes. Long battery life and weather-resistant construction.`,
-    'Water Bottles': `Insulated ${material.toLowerCase()} water bottle keeps drinks cold for 24 hours. Leak-proof lid and fits most cup holders.`,
-    'Multi-tools': `Compact ${material.toLowerCase()} multi-tool with 15 functions. Includes knife, pliers, screwdrivers, and bottle opener.`,
-    'First Aid': `Comprehensive ${material.toLowerCase()} first aid kit for outdoor emergencies. Includes bandages, medications, and survival tools.`,
-    'Sunglasses': `Polarized ${material.toLowerCase()} sunglasses with 100% UV protection. Lightweight frame and impact-resistant lenses.`,
+    // Outerwear
+    'Rain Jackets': `Fully waterproof ${material.toLowerCase()} rain jacket with sealed seams and adjustable hood. Lightweight, packable, and perfect for unpredictable weather on the trail.`,
+    'Insulated Jackets': `Premium ${material.toLowerCase()} insulated jacket offering exceptional warmth-to-weight ratio. Features quilted baffles and water-resistant shell for cold weather adventures.`,
+    'Softshell Jackets': `Versatile ${material.toLowerCase()} softshell jacket with four-way stretch and wind resistance. Ideal for high-output activities in cool conditions.`,
+    'Fleece Jackets': `Cozy ${material.toLowerCase()} fleece jacket providing warmth without bulk. Perfect as a midlayer or standalone piece for casual outdoor wear.`,
+    'Vests': `Lightweight ${material.toLowerCase()} vest delivering core warmth and freedom of movement. Great for layering or solo wear on mild days.`,
+
+    // Tops
+    'T-Shirts': `Comfortable ${material.toLowerCase()} t-shirt with moisture-wicking performance. Perfect for hiking, training, or everyday adventures.`,
+    'Long Sleeve Shirts': `Versatile ${material.toLowerCase()} long sleeve shirt with UPF sun protection. Roll-up sleeves and ventilation for all-day comfort.`,
+    'Polo Shirts': `Classic ${material.toLowerCase()} polo shirt with athletic fit and quick-dry fabric. Transitions seamlessly from trail to town.`,
+    'Hoodies': `Relaxed ${material.toLowerCase()} hoodie with adjustable drawcord and kangaroo pocket. Your go-to layer for cool mornings and campfire evenings.`,
+    'Sweaters': `Timeless ${material.toLowerCase()} sweater with natural temperature regulation. Breathable, odor-resistant, and incredibly soft.`,
+    'Quarter-Zip Pullovers': `Athletic ${material.toLowerCase()} quarter-zip pullover with thumbhole cuffs. Ideal for active pursuits in variable conditions.`,
+
+    // Bottoms
+    'Hiking Pants': `Durable ${material.toLowerCase()} hiking pants with articulated knees and gusseted crotch. Built for all-day comfort on the trail.`,
+    'Cargo Pants': `Functional ${material.toLowerCase()} cargo pants with ample pocket storage. Reinforced construction handles rugged terrain.`,
+    'Shorts': `Lightweight ${material.toLowerCase()} shorts with quick-dry fabric and secure pockets. Perfect for warm weather adventures.`,
+    'Joggers': `Comfortable ${material.toLowerCase()} joggers with relaxed fit and tapered legs. Versatile enough for trail or travel.`,
+    'Leggings': `High-performance ${material.toLowerCase()} leggings with compression fit and hidden pocket. Flatlock seams prevent chafing during high-output activities.`,
+
+    // Base Layers
+    'Base Layer Tops': `Thermal ${material.toLowerCase()} base layer top providing warmth without bulk. Flatlock seams and four-way stretch for next-to-skin comfort.`,
+    'Base Layer Bottoms': `Technical ${material.toLowerCase()} base layer bottoms with moisture-wicking performance. Essential foundation for cold weather layering.`,
+
+    // Accessories
+    'Beanies': `Warm ${material.toLowerCase()} beanie with fleece lining and classic cuff. A cold-weather essential for any outdoor enthusiast.`,
+    'Baseball Caps': `Structured ${material.toLowerCase()} baseball cap with curved brim and adjustable strap. Perfect for sun protection on the trail.`,
+    'Sun Hats': `Wide-brim ${material.toLowerCase()} sun hat with UPF 50+ protection. Breathable construction and adjustable chin strap for windy conditions.`,
+    'Gloves': `Touchscreen-compatible ${material.toLowerCase()} gloves with fleece lining. Maintain dexterity while keeping hands warm.`,
+    'Neck Gaiters': `Versatile ${material.toLowerCase()} neck gaiter with seamless construction. Wear it multiple ways for wind and sun protection.`,
+    'Scarves': `Luxuriously soft ${material.toLowerCase()} scarf with generous length. Adds warmth and style to any outdoor outfit.`,
+    'Socks': `Cushioned ${material.toLowerCase()} socks with arch support and blister prevention. Moisture-wicking performance for all-day comfort.`,
+    'Belts': `Durable ${material.toLowerCase()} belt with quick-release buckle. Lightweight and low-profile for comfortable all-day wear.`,
   };
 
   return descriptions[productType] || `High-quality ${material.toLowerCase()} ${productType.toLowerCase()} for outdoor enthusiasts.`;
@@ -430,7 +370,7 @@ function generateImageUrl(name: string): string {
   return `https://placehold.co/600x600/2d5a27/ffffff?text=${encodedName}`;
 }
 
-console.log('Seeding products...');
+console.log('Seeding clothing products...');
 
 const insertProduct = db.prepare(`
   INSERT INTO products (
@@ -449,10 +389,10 @@ for (const config of productDistribution) {
     const suffix = rng.pick(suffixes);
     const name = `${brand} ${material} ${config.subcategory.replace(/s$/, '')} ${suffix}`;
 
-    const sku = generateSKU(config.categoryId, totalProducts + 1);
+    const sku = generateSKU(totalProducts + 1);
     const description = generateDescription(config.subcategory, material);
 
-    const priceRange = priceRanges[config.categoryId];
+    const priceRange = priceRanges[config.priceType];
     const priceInCents = rng.range(priceRange.min, priceRange.max);
 
     // Select random subset of sizes
@@ -465,7 +405,7 @@ for (const config of productDistribution) {
 
     const imageUrl = generateImageUrl(name);
     const stockQuantity = rng.range(5, 150);
-    const weightOz = rng.range(4, 800) / 10; // 0.4 - 80.0 oz
+    const weightOz = rng.range(4, 320) / 10; // 0.4 - 32.0 oz (clothing weight range)
 
     const createdAt = new Date(
       Date.now() - rng.range(0, 365) * 24 * 60 * 60 * 1000
@@ -495,7 +435,7 @@ for (const config of productDistribution) {
   }
 }
 
-console.log(`Successfully seeded ${totalProducts} products with image prompts!`);
+console.log(`Successfully seeded ${totalProducts} clothing products with image prompts!`);
 
 // Verify count
 const count = db.prepare('SELECT COUNT(*) as count FROM products').get() as { count: number };
