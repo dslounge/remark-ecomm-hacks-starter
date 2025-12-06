@@ -157,4 +157,34 @@ export class ProductService {
     const result = db.prepare(query).get(...params) as { count: number };
     return result.count;
   }
+
+  static searchSuggestions(searchTerm: string, limit: number = 10): Product[] {
+    const trimmed = searchTerm.trim();
+    
+    if (!trimmed || trimmed.length < 2) {
+      return [];
+    }
+
+    // Get all products for fuzzy search
+    const query = 'SELECT * FROM products';
+    const allProducts = db.prepare(query).all() as DbProduct[];
+    const mappedProducts = allProducts.map(mapDbProduct);
+
+    // Use Fuse.js for fuzzy matching
+    const fuse = new Fuse(mappedProducts, {
+      includeScore: true,
+      keys: [
+        { name: 'name', weight: 2 },
+        { name: 'colors', weight: 1 },
+        { name: 'subcategory', weight: 0.5 },
+      ],
+      threshold: 0.4,
+      ignoreLocation: true,
+    });
+
+    const results = fuse.search(trimmed);
+    
+    // Return top N results
+    return results.slice(0, limit).map((result) => result.item);
+  }
 }

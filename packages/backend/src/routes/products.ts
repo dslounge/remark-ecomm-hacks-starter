@@ -18,6 +18,11 @@ const productQuerySchema = z.object({
   sortOrder: z.enum(['asc', 'desc']).default('asc'),
 });
 
+const searchSuggestionsSchema = z.object({
+  q: z.string().min(1),
+  limit: z.coerce.number().min(1).max(20).default(10),
+});
+
 // GET /api/products - List products with pagination and filters
 router.get('/', (req, res, next) => {
   try {
@@ -47,6 +52,26 @@ router.get('/', (req, res, next) => {
         total,
         totalPages,
       },
+    };
+
+    res.json(response);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      next(new HttpError(400, 'VALIDATION_ERROR', error.errors[0].message));
+    } else {
+      next(error);
+    }
+  }
+});
+
+// GET /api/products/suggestions - Get search suggestions
+router.get('/suggestions', (req, res, next) => {
+  try {
+    const params = searchSuggestionsSchema.parse(req.query);
+    const suggestions = ProductService.searchSuggestions(params.q, params.limit);
+
+    const response: ApiSuccess<Product[]> = {
+      data: suggestions,
     };
 
     res.json(response);

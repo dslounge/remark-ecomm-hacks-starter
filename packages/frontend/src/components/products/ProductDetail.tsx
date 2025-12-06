@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDraggable } from '@dnd-kit/core';
 import type { Product } from '@summit-gear/shared';
 import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
@@ -7,6 +8,7 @@ import { ColorSelector } from './ColorSelector';
 import { Input } from '../ui/Input';
 import { formatPrice } from '../../lib/utils';
 import { useCart } from '../../hooks/useCart';
+import { useOutfitComposerStore } from '../../stores/outfitComposer';
 
 export interface ProductDetailProps {
   product: Product;
@@ -14,9 +16,21 @@ export interface ProductDetailProps {
 
 export function ProductDetail({ product }: ProductDetailProps) {
   const { addItem } = useCart();
+  const addProduct = useOutfitComposerStore((state) => state.addProduct);
+  const openComposer = useOutfitComposerStore((state) => state.openComposer);
+  const hasProduct = useOutfitComposerStore((state) => state.hasProduct(product.id));
+
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [quantity, setQuantity] = useState(1);
+
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: `product-detail-${product.id}`,
+    data: {
+      type: 'product',
+      product,
+    },
+  });
 
   const handleAddToCart = () => {
     addItem({
@@ -33,15 +47,33 @@ export function ProductDetail({ product }: ProductDetailProps) {
     alert('Added to cart!'); // In a real app, use a toast notification
   };
 
+  const handleAddToOutfit = () => {
+    addProduct(product);
+    openComposer();
+  };
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
       {/* Product Image */}
-      <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+      <div
+        ref={setNodeRef}
+        {...attributes}
+        {...listeners}
+        className={`aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-grab active:cursor-grabbing ${
+          isDragging ? 'opacity-50' : ''
+        }`}
+      >
         <img
           src={product.imageUrl}
           alt={product.name}
           className="h-full w-full object-cover"
         />
+        {/* Drag hint overlay */}
+        <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-opacity flex items-center justify-center">
+          <span className="opacity-0 hover:opacity-100 bg-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
+            Drag to Outfit
+          </span>
+        </div>
       </div>
 
       {/* Product Info */}
@@ -128,15 +160,27 @@ export function ProductDetail({ product }: ProductDetailProps) {
         </div>
 
         {/* Add to Cart Button */}
-        <Button
-          variant="primary"
-          size="lg"
-          onClick={handleAddToCart}
-          disabled={product.stockQuantity === 0}
-          className="w-full"
-        >
-          {product.stockQuantity === 0 ? 'Out of Stock' : 'Add to Cart'}
-        </Button>
+        <div className="space-y-3">
+          <Button
+            variant="primary"
+            size="lg"
+            onClick={handleAddToCart}
+            disabled={product.stockQuantity === 0}
+            className="w-full"
+          >
+            {product.stockQuantity === 0 ? 'Out of Stock' : 'Add to Cart'}
+          </Button>
+
+          {/* Add to Outfit Button */}
+          <Button
+            variant={hasProduct ? 'outline' : 'secondary'}
+            size="lg"
+            onClick={handleAddToOutfit}
+            className="w-full"
+          >
+            {hasProduct ? '✓ In Outfit Composer' : 'Add to Outfit Composer'}
+          </Button>
+        </div>
 
         {/* Product Details */}
         <div className="border-t border-gray-200 pt-6">

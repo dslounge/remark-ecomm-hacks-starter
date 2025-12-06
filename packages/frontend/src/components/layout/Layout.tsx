@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { OutfitComposerFab } from '../outfit/OutfitComposerFab';
+import { OutfitComposerPopover } from '../outfit/OutfitComposerPopover';
 
 export interface LayoutProps {
   children: ReactNode;
@@ -14,6 +16,10 @@ export function Layout({ children }: LayoutProps) {
         {children}
       </main>
       <Footer />
+      
+      {/* Global Outfit Composer UI */}
+      <OutfitComposerFab />
+      <OutfitComposerPopover />
     </div>
   );
 }
