@@ -37,7 +37,3 @@ dist/
 *.swp
 *.swo
 
-# Generated product images (large files)
-packages/frontend/public/products/*.jpg
-packages/frontend/public/products/*.png
-!packages/frontend/public/products/.gitkeep

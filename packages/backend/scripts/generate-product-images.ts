@@ -9,7 +9,22 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Configuration - save to frontend public folder so Vite serves them directly
 const OUTPUT_DIR = path.join(__dirname, '../../frontend/public/products');
-const LIMIT = process.argv.includes('--all') ? undefined : 1; // Default: just 1 image
+const CONCURRENCY = 5; // Number of parallel requests
+
+// Parse arguments: --all for everything, or a number for specific count (default: 1)
+function getTargetCount(): number | null {
+  if (process.argv.includes('--all')) return null; // null means unlimited
+
+  // Look for a number argument
+  for (const arg of process.argv.slice(2)) {
+    const num = parseInt(arg, 10);
+    if (!isNaN(num) && num > 0) return num;
+  }
+
+  return 1; // default
+}
+
+const TARGET_COUNT = getTargetCount();
 
 // Use Nano Banana Pro (gemini-3-pro-image-preview) or fast model (gemini-2.5-flash-image)
 const MODEL = process.argv.includes('--fast')
@@ -32,6 +47,13 @@ interface GeminiResponse {
     message: string;
     code: number;
   };
+}
+
+interface ProductRecord {
+  id: number;
+  sku: string;
+  name: string;
+  image_prompt_json: string;
 }
 
 async function generateImage(prompt: string): Promise<Buffer | null> {
@@ -65,7 +87,7 @@ async function generateImage(prompt: string): Promise<Buffer | null> {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error(`API error (${response.status}):`, errorText);
+      console.error(`API error (${response.status}):`, errorText.substring(0, 200));
       return null;
     }
 
@@ -86,11 +108,41 @@ async function generateImage(prompt: string): Promise<Buffer | null> {
       }
     }
 
-    console.error('No image in response:', JSON.stringify(data, null, 2));
+    console.error('No image in response');
     return null;
   } catch (error) {
     console.error('Image generation failed:', error);
     return null;
+  }
+}
+
+async function processProduct(
+  product: ProductRecord,
+  updateStmt: ReturnType<typeof db.prepare>
+): Promise<'success' | 'fail' | 'skip'> {
+  const filename = `${product.sku}.jpg`;
+  const filepath = path.join(OUTPUT_DIR, filename);
+
+  // Skip if image already exists
+  if (fs.existsSync(filepath)) {
+    return 'skip';
+  }
+
+  const imagePrompt: ImagePrompt = JSON.parse(product.image_prompt_json);
+  const promptText = renderPromptText(imagePrompt);
+
+  console.log(`  ⏳ ${product.sku}: ${product.name.substring(0, 40)}...`);
+
+  const imageBuffer = await generateImage(promptText);
+
+  if (imageBuffer) {
+    fs.writeFileSync(filepath, imageBuffer);
+    updateStmt.run(`/products/${filename}`, product.id);
+    console.log(`  ✓ ${product.sku} saved`);
+    return 'success';
+  } else {
+    console.log(`  ✗ ${product.sku} failed`);
+    return 'fail';
   }
 }
 
@@ -103,31 +155,34 @@ async function main() {
   }
 
   console.log(`Using model: ${MODEL}`);
+  console.log(`Target: ${TARGET_COUNT === null ? 'all remaining' : TARGET_COUNT} image(s)`);
+  console.log(`Concurrency: ${CONCURRENCY} parallel requests\n`);
 
   // Ensure output directory exists
   if (!fs.existsSync(OUTPUT_DIR)) {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   }
 
-  // Get products with prompts
-  let query = `
+  // Get ALL products with prompts - we'll filter by file existence
+  const allProducts = db.prepare(`
     SELECT id, sku, name, image_prompt_json
     FROM products
     WHERE image_prompt_json IS NOT NULL
     ORDER BY id
-  `;
-  if (LIMIT) {
-    query += ` LIMIT ${LIMIT}`;
-  }
+  `).all() as ProductRecord[];
 
-  const products = db.prepare(query).all() as Array<{
-    id: number;
-    sku: string;
-    name: string;
-    image_prompt_json: string;
-  }>;
+  // Filter to only products that need images
+  const products = allProducts.filter(p => {
+    const filepath = path.join(OUTPUT_DIR, `${p.sku}.jpg`);
+    return !fs.existsSync(filepath);
+  });
 
-  console.log(`Processing ${products.length} product(s)...`);
+  const skipCount = allProducts.length - products.length;
+  console.log(`Found ${allProducts.length} products, ${skipCount} already have images`);
+  console.log(`Generating ${TARGET_COUNT === null ? products.length : Math.min(TARGET_COUNT, products.length)} images...\n`);
+
+  // Limit to target count
+  const toProcess = TARGET_COUNT === null ? products : products.slice(0, TARGET_COUNT);
 
   const updateStmt = db.prepare(`
     UPDATE products SET image_url = ? WHERE id = ?
@@ -136,40 +191,32 @@ async function main() {
   let successCount = 0;
   let failCount = 0;
 
-  for (let i = 0; i < products.length; i++) {
-    const product = products[i];
-    const imagePrompt: ImagePrompt = JSON.parse(product.image_prompt_json);
-    const promptText = renderPromptText(imagePrompt);
-    const filename = `${product.sku}.jpg`;
-    const filepath = path.join(OUTPUT_DIR, filename);
+  // Process in batches of CONCURRENCY
+  for (let i = 0; i < toProcess.length; i += CONCURRENCY) {
+    const batch = toProcess.slice(i, i + CONCURRENCY);
+    const batchNum = Math.floor(i / CONCURRENCY) + 1;
+    const totalBatches = Math.ceil(toProcess.length / CONCURRENCY);
 
-    // Skip if image already exists
-    if (fs.existsSync(filepath)) {
-      console.log(`[${i + 1}/${products.length}] Skipping ${product.sku} - already exists`);
-      continue;
+    console.log(`Batch ${batchNum}/${totalBatches} (${batch.length} images):`);
+
+    const results = await Promise.all(
+      batch.map(product => processProduct(product, updateStmt))
+    );
+
+    for (const result of results) {
+      if (result === 'success') successCount++;
+      else if (result === 'fail') failCount++;
     }
 
-    console.log(`\n[${i + 1}/${products.length}] Generating ${product.sku}: ${product.name}`);
-    console.log(`Prompt: ${promptText}`);
-
-    const imageBuffer = await generateImage(promptText);
-
-    if (imageBuffer) {
-      fs.writeFileSync(filepath, imageBuffer);
-      updateStmt.run(`/products/${filename}`, product.id);
-      console.log(`✓ Saved to ${filepath}`);
-      successCount++;
-    } else {
-      console.log(`✗ Failed to generate`);
-      failCount++;
-    }
+    console.log('');
   }
 
-  console.log(`\n========================================`);
+  console.log(`========================================`);
   console.log(`Generation complete!`);
-  console.log(`  Success: ${successCount}`);
+  console.log(`  Generated: ${successCount}`);
   console.log(`  Failed: ${failCount}`);
-  console.log(`  Skipped: ${products.length - successCount - failCount}`);
+  console.log(`  Already existed: ${skipCount}`);
+  console.log(`  Remaining: ${allProducts.length - skipCount - successCount}`);
 }
 
 main().catch(console.error);
