@@ -13,6 +13,7 @@ interface DbProduct {
   sizes: string;
   colors: string;
   image_url: string;
+  image_prompt_json: string | null;
   stock_quantity: number;
   weight_oz: number;
   created_at: string;
@@ -30,6 +31,7 @@ function mapDbProduct(dbProduct: DbProduct): Product {
     sizes: JSON.parse(dbProduct.sizes),
     colors: JSON.parse(dbProduct.colors),
     imageUrl: dbProduct.image_url,
+    imagePromptJson: dbProduct.image_prompt_json ? JSON.parse(dbProduct.image_prompt_json) : undefined,
     stockQuantity: dbProduct.stock_quantity,
     weightOz: dbProduct.weight_oz,
     createdAt: dbProduct.created_at,

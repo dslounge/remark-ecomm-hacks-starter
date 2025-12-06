@@ -19,6 +19,7 @@ export const createProductsTable = `
     sizes TEXT NOT NULL,
     colors TEXT NOT NULL,
     image_url TEXT NOT NULL,
+    image_prompt_json TEXT,
     stock_quantity INTEGER NOT NULL,
     weight_oz REAL NOT NULL,
     created_at TEXT NOT NULL,

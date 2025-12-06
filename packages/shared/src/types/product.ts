@@ -1,3 +1,5 @@
+import type { ImagePrompt } from './image-prompt.js';
+
 export interface Product {
   id: number;
   sku: string;
@@ -9,6 +11,7 @@ export interface Product {
   sizes: string[];
   colors: string[];
   imageUrl: string;
+  imagePromptJson?: ImagePrompt;
   stockQuantity: number;
   weightOz: number;
   createdAt: string;

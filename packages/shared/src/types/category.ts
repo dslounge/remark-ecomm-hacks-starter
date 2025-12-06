@@ -7,12 +7,9 @@ export interface Category {
 
 // Seed data - exported for use in backend seeding
 export const CATEGORIES: Omit<Category, 'id'>[] = [
-  { name: 'Camping & Hiking', slug: 'camping-hiking', description: 'Tents, sleeping bags, backpacks, and trail essentials' },
-  { name: 'Climbing', slug: 'climbing', description: 'Harnesses, ropes, carabiners, and climbing gear' },
-  { name: 'Apparel', slug: 'apparel', description: 'Jackets, pants, base layers, and outdoor clothing' },
-  { name: 'Footwear', slug: 'footwear', description: 'Hiking boots, trail runners, and outdoor shoes' },
-  { name: 'Cycling', slug: 'cycling', description: 'Helmets, jerseys, shorts, and bike accessories' },
-  { name: 'Water Sports', slug: 'water-sports', description: 'Kayaking, paddleboarding, and water gear' },
-  { name: 'Winter Sports', slug: 'winter-sports', description: 'Ski and snowboard apparel and accessories' },
-  { name: 'Accessories', slug: 'accessories', description: 'Headlamps, water bottles, tools, and more' },
+  { name: 'Outerwear', slug: 'outerwear', description: 'Rain jackets, insulated jackets, fleece, softshells, and vests' },
+  { name: 'Tops', slug: 'tops', description: 'T-shirts, long sleeves, polos, hoodies, and sweaters' },
+  { name: 'Bottoms', slug: 'bottoms', description: 'Hiking pants, cargo pants, shorts, joggers, and leggings' },
+  { name: 'Base Layers', slug: 'base-layers', description: 'Thermal tops and bottoms for layering in cold conditions' },
+  { name: 'Accessories', slug: 'accessories', description: 'Hats, gloves, scarves, socks, belts, and more' },
 ];

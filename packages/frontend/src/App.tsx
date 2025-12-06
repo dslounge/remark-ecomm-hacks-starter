@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Layout } from './components/layout';
 import { HomePage, ProductsPage, ProductDetailPage, CartPage } from './pages';
 import { DndWrapper } from './components/outfit/DndWrapper';
+import { DevInspector } from './components/dev/DevInspector';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,6 +30,7 @@ export function App() {
           </Layout>
         </DndWrapper>
       </BrowserRouter>
+      {import.meta.env.DEV && <DevInspector />}
     </QueryClientProvider>
   );
 }

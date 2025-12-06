@@ -18,3 +18,6 @@ export type {
   OutfitRecord,
   SupportedImageMime,
 } from './types/outfit.js';
+
+// Image prompt types
+export type { ImagePrompt, SubcategoryTemplate } from './types/image-prompt.js';
