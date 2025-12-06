@@ -36,4 +36,5 @@ dist/
 .vscode/
 *.swp
 *.swo
+.cursorplans
 
