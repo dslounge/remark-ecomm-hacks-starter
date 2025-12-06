@@ -1,0 +1,35 @@
+{
+  "name": "Basecamp Classic Fleece Jacket",
+  "description": "Timeless 200-weight fleece with full zip and zippered pockets. Reliable warmth as a midlayer or standalone piece for cool evenings.",
+  "categoryId": 1,
+  "subcategory": "Fleece Jackets",
+  "priceInCents": 8999,
+  "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+  "colors": ["Heather Gray", "Navy", "Forest Green", "Black"],
+  "imagePrompt": {
+    "version": 1,
+    "subject": {
+      "product": "classic full-zip fleece jacket",
+      "variant": "front view laid flat showing plush texture",
+      "color": "heather gray",
+      "material": "200-weight polyester fleece with visible plush texture",
+      "details": ["full-zip front", "zippered hand pockets", "elastic binding at cuffs and hem", "stand-up collar"]
+    },
+    "camera": {
+      "angle": "front",
+      "distance": "full product",
+      "focus": "fleece texture"
+    },
+    "lighting": {
+      "setup": "soft side lighting to show texture depth",
+      "shadows": "soft"
+    },
+    "style": {
+      "quality": "professional e-commerce product photography, pure white seamless background, studio lighting emphasizing soft texture"
+    },
+    "technical": {
+      "aspectRatio": "1:1",
+      "resolution": "2K"
+    }
+  }
+}

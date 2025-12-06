@@ -1,0 +1,35 @@
+{
+  "name": "Vertex Grid Fleece Pullover",
+  "description": "Technical grid fleece with superior breathability. Waffle-pattern interior traps warmth while allowing moisture to escape during intense activity.",
+  "categoryId": 1,
+  "subcategory": "Fleece Jackets",
+  "priceInCents": 10999,
+  "sizes": ["S", "M", "L", "XL"],
+  "colors": ["Cobalt Blue", "Olive", "Black"],
+  "imagePrompt": {
+    "version": 1,
+    "subject": {
+      "product": "technical grid fleece with quarter zip",
+      "variant": "front view with visible grid texture pattern",
+      "color": "cobalt blue",
+      "material": "grid fleece with visible waffle-pattern texture",
+      "details": ["quarter-zip collar", "raglan sleeves for mobility", "flatlock seams", "slim athletic fit"]
+    },
+    "camera": {
+      "angle": "front",
+      "distance": "full product",
+      "focus": "grid texture pattern"
+    },
+    "lighting": {
+      "setup": "side-angle lighting to emphasize grid pattern",
+      "shadows": "defined to show texture depth"
+    },
+    "style": {
+      "quality": "professional e-commerce product photography, pure white seamless background, studio lighting"
+    },
+    "technical": {
+      "aspectRatio": "1:1",
+      "resolution": "2K"
+    }
+  }
+}

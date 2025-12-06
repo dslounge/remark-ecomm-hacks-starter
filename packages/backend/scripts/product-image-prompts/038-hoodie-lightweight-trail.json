@@ -1,0 +1,35 @@
+{
+  "name": "Trailhead Lightweight Trail Hoodie",
+  "description": "Ultralight hoodie for cool mornings and UV protection. Packs down small for your daypack. Essential sun and wind protection.",
+  "categoryId": 2,
+  "subcategory": "Hoodies",
+  "priceInCents": 5999,
+  "sizes": ["XS", "S", "M", "L", "XL"],
+  "colors": ["Sage", "Dusty Blue", "Gray", "Black"],
+  "imagePrompt": {
+    "version": 1,
+    "subject": {
+      "product": "ultralight packable trail hoodie",
+      "variant": "front view showing lightweight construction",
+      "color": "sage",
+      "material": "ultralight quick-dry fabric",
+      "details": ["form-fitting hood", "half-zip front", "single chest pocket", "slim athletic fit"]
+    },
+    "camera": {
+      "angle": "front",
+      "distance": "full product",
+      "focus": "lightweight fabric and fit"
+    },
+    "lighting": {
+      "setup": "bright even lighting",
+      "shadows": "minimal"
+    },
+    "style": {
+      "quality": "professional e-commerce product photography, pure white seamless background, studio lighting"
+    },
+    "technical": {
+      "aspectRatio": "1:1",
+      "resolution": "2K"
+    }
+  }
+}

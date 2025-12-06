@@ -1,0 +1,35 @@
+{
+  "name": "Expedition Arctic Parka",
+  "description": "Extreme cold rated to -40°F. 700-fill down with waterproof shell and fur-lined hood. Built for polar expeditions and the coldest winter days.",
+  "categoryId": 1,
+  "subcategory": "Insulated Jackets",
+  "priceInCents": 44999,
+  "sizes": ["S", "M", "L", "XL"],
+  "colors": ["Black", "Navy", "Arctic White"],
+  "imagePrompt": {
+    "version": 1,
+    "subject": {
+      "product": "extreme cold expedition parka with fur-trimmed hood",
+      "variant": "front view with hood up showing fur trim",
+      "color": "black with gray fur trim",
+      "material": "heavy-duty waterproof shell with box baffle down construction",
+      "details": ["removable faux fur hood trim", "two-way front zipper", "multiple exterior pockets", "internal security pocket", "snow skirt"]
+    },
+    "camera": {
+      "angle": "front",
+      "distance": "full product",
+      "focus": "hood and fur trim detail"
+    },
+    "lighting": {
+      "setup": "soft overhead with rim light on fur",
+      "shadows": "soft"
+    },
+    "style": {
+      "quality": "professional e-commerce product photography, pure white seamless background, premium studio lighting"
+    },
+    "technical": {
+      "aspectRatio": "1:1",
+      "resolution": "2K"
+    }
+  }
+}

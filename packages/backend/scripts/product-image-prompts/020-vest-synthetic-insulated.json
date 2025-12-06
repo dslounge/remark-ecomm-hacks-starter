@@ -1,0 +1,35 @@
+{
+  "name": "Ridgeline Synthetic Insulated Vest",
+  "description": "Synthetic insulation performs wet or dry. Water-resistant shell and stretch side panels for active layering in variable conditions.",
+  "categoryId": 1,
+  "subcategory": "Vests",
+  "priceInCents": 11999,
+  "sizes": ["S", "M", "L", "XL"],
+  "colors": ["Rust", "Slate Blue", "Black"],
+  "imagePrompt": {
+    "version": 1,
+    "subject": {
+      "product": "synthetic insulated vest with stretch side panels",
+      "variant": "three-quarter view showing side panel construction",
+      "color": "rust with black side panels",
+      "material": "quilted synthetic insulated front, stretch fleece side panels",
+      "details": ["contrast stretch side panels", "quilted front and back", "zippered hand pockets", "adjustable hem"]
+    },
+    "camera": {
+      "angle": "three-quarter",
+      "distance": "full product",
+      "focus": "side panel construction"
+    },
+    "lighting": {
+      "setup": "soft lighting showing material contrast",
+      "shadows": "soft"
+    },
+    "style": {
+      "quality": "professional e-commerce product photography, pure white seamless background, studio lighting"
+    },
+    "technical": {
+      "aspectRatio": "1:1",
+      "resolution": "2K"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "Summit Classic Pique Polo",
+  "description": "Traditional pique polo with moisture-wicking upgrade. Clean lines and professional look for casual Fridays or golf courses.",
+  "categoryId": 2,
+  "subcategory": "Polo Shirts",
+  "priceInCents": 5499,
+  "sizes": ["S", "M", "L", "XL", "XXL"],
+  "colors": ["Navy", "White", "Heather Gray", "Forest Green"],
+  "imagePrompt": {
+    "version": 1,
+    "subject": {
+      "product": "classic pique polo shirt",
+      "variant": "front view with collar slightly popped to show construction",
+      "color": "navy",
+      "material": "textured pique knit fabric",
+      "details": ["ribbed collar", "three-button placket", "tennis tail hem", "embroidered logo"]
+    },
+    "camera": {
+      "angle": "front",
+      "distance": "full product",
+      "focus": "collar and placket detail"
+    },
+    "lighting": {
+      "setup": "soft lighting showing pique texture",
+      "shadows": "soft"
+    },
+    "style": {
+      "quality": "professional e-commerce product photography, pure white seamless background, studio lighting"
+    },
+    "technical": {
+      "aspectRatio": "1:1",
+      "resolution": "2K"
+    }
+  }
+}

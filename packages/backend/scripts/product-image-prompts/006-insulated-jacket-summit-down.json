@@ -1,0 +1,35 @@
+{
+  "name": "Summit 800-Fill Down Jacket",
+  "description": "Ultralight 800-fill goose down jacket with water-resistant shell. Packs into internal pocket for travel. Your essential cold-weather companion.",
+  "categoryId": 1,
+  "subcategory": "Insulated Jackets",
+  "priceInCents": 27999,
+  "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+  "colors": ["Midnight Blue", "Forest Green", "Black"],
+  "imagePrompt": {
+    "version": 1,
+    "subject": {
+      "product": "ultralight 800-fill down jacket with horizontal baffles",
+      "variant": "front view showing quilted baffle pattern",
+      "color": "midnight blue",
+      "material": "lightweight ripstop shell with visible down loft between baffles",
+      "details": ["horizontal baffle construction", "elasticized cuffs", "chin guard behind zipper", "zippered hand pockets"]
+    },
+    "camera": {
+      "angle": "front",
+      "distance": "full product",
+      "focus": "baffle pattern and loft"
+    },
+    "lighting": {
+      "setup": "side lighting to emphasize quilted texture",
+      "shadows": "soft shadows in baffle channels"
+    },
+    "style": {
+      "quality": "professional e-commerce product photography, pure white seamless background, studio lighting showing down loft"
+    },
+    "technical": {
+      "aspectRatio": "1:1",
+      "resolution": "2K"
+    }
+  }
+}

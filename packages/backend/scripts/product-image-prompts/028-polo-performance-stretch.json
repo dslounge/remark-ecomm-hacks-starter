@@ -1,0 +1,35 @@
+{
+  "name": "Alpine Performance Stretch Polo",
+  "description": "Technical stretch polo for active lifestyles. Four-way stretch fabric moves with you. Quick-dry performance for warm weather.",
+  "categoryId": 2,
+  "subcategory": "Polo Shirts",
+  "priceInCents": 6999,
+  "sizes": ["S", "M", "L", "XL"],
+  "colors": ["Steel Blue", "Black", "Coral", "White"],
+  "imagePrompt": {
+    "version": 1,
+    "subject": {
+      "product": "stretch performance polo shirt",
+      "variant": "front view showing athletic fit",
+      "color": "steel blue",
+      "material": "smooth stretch performance fabric with subtle sheen",
+      "details": ["performance collar stays flat", "hidden button placket", "side vents", "athletic slim fit"]
+    },
+    "camera": {
+      "angle": "front",
+      "distance": "full product",
+      "focus": "fabric quality and fit"
+    },
+    "lighting": {
+      "setup": "soft lighting with subtle highlight on fabric sheen",
+      "shadows": "minimal"
+    },
+    "style": {
+      "quality": "professional e-commerce product photography, pure white seamless background, studio lighting"
+    },
+    "technical": {
+      "aspectRatio": "1:1",
+      "resolution": "2K"
+    }
+  }
+}

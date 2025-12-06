@@ -1,0 +1,35 @@
+{
+  "name": "Basecamp Classic Pullover Hoodie",
+  "description": "Heavyweight cotton blend hoodie for cold weather comfort. Kangaroo pocket and lined hood. Your go-to layer for basecamp lounging.",
+  "categoryId": 2,
+  "subcategory": "Hoodies",
+  "priceInCents": 6999,
+  "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+  "colors": ["Charcoal", "Navy", "Black", "Forest Green"],
+  "imagePrompt": {
+    "version": 1,
+    "subject": {
+      "product": "heavyweight cotton blend pullover hoodie",
+      "variant": "front view with hood spread flat showing lining",
+      "color": "charcoal",
+      "material": "heavyweight fleece-lined cotton blend",
+      "details": ["lined drawcord hood", "large kangaroo pocket", "ribbed cuffs and hem", "relaxed fit"]
+    },
+    "camera": {
+      "angle": "front",
+      "distance": "full product",
+      "focus": "hood construction and kangaroo pocket"
+    },
+    "lighting": {
+      "setup": "soft lighting showing fleece texture",
+      "shadows": "soft"
+    },
+    "style": {
+      "quality": "professional e-commerce product photography, pure white seamless background, studio lighting"
+    },
+    "technical": {
+      "aspectRatio": "1:1",
+      "resolution": "2K"
+    }
+  }
+}

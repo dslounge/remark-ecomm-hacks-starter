@@ -1,0 +1,35 @@
+{
+  "name": "Expedition Sun Shield Tee",
+  "description": "UPF 50+ sun protection for all-day exposure. Lightweight and breathable with vented back panel. Essential for desert and alpine adventures.",
+  "categoryId": 2,
+  "subcategory": "T-Shirts",
+  "priceInCents": 4999,
+  "sizes": ["XS", "S", "M", "L", "XL"],
+  "colors": ["Sand", "Light Gray", "Sage Green"],
+  "imagePrompt": {
+    "version": 1,
+    "subject": {
+      "product": "UPF 50+ sun protection t-shirt with vented back",
+      "variant": "three-quarter back view showing ventilation panel",
+      "color": "sand",
+      "material": "lightweight sun-protective fabric with matte finish",
+      "details": ["vented back panel", "UPF 50+ rating", "flatlock seams", "extended collar coverage"]
+    },
+    "camera": {
+      "angle": "three-quarter back",
+      "distance": "full product",
+      "focus": "back ventilation panel"
+    },
+    "lighting": {
+      "setup": "even lighting showing vent construction",
+      "shadows": "soft"
+    },
+    "style": {
+      "quality": "professional e-commerce product photography, pure white seamless background, studio lighting"
+    },
+    "technical": {
+      "aspectRatio": "1:1",
+      "resolution": "2K"
+    }
+  }
+}

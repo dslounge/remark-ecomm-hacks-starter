@@ -1,0 +1,35 @@
+{
+  "name": "Pinnacle Hooded Belay Jacket",
+  "description": "Oversized fit designed to layer over climbing harness. 650-fill down with extended hem and large hood fits over helmet. Essential for belay stations.",
+  "categoryId": 1,
+  "subcategory": "Insulated Jackets",
+  "priceInCents": 32999,
+  "sizes": ["S", "M", "L", "XL"],
+  "colors": ["Sage Green", "Rust", "Storm Gray"],
+  "imagePrompt": {
+    "version": 1,
+    "subject": {
+      "product": "oversized belay parka with helmet-compatible hood",
+      "variant": "front view showing relaxed fit and extended length",
+      "color": "sage green",
+      "material": "durable shell with 650-fill down insulation",
+      "details": ["oversized helmet-compatible hood", "extended back hem", "large hand warmer pockets", "two-way zipper for harness access", "internal stretch cuffs"]
+    },
+    "camera": {
+      "angle": "front",
+      "distance": "full product",
+      "focus": "hood volume and extended length"
+    },
+    "lighting": {
+      "setup": "even softbox lighting",
+      "shadows": "soft"
+    },
+    "style": {
+      "quality": "professional e-commerce product photography, pure white seamless background, studio lighting"
+    },
+    "technical": {
+      "aspectRatio": "1:1",
+      "resolution": "2K"
+    }
+  }
+}

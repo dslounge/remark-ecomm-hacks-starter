@@ -1,0 +1,35 @@
+{
+  "name": "Ridgeline Merino Travel Polo",
+  "description": "Merino blend polo for wrinkle-free travel. Natural odor resistance and temperature regulation. Pack once, wear all week.",
+  "categoryId": 2,
+  "subcategory": "Polo Shirts",
+  "priceInCents": 8999,
+  "sizes": ["S", "M", "L", "XL"],
+  "colors": ["Charcoal", "Navy", "Burgundy"],
+  "imagePrompt": {
+    "version": 1,
+    "subject": {
+      "product": "merino wool blend travel polo",
+      "variant": "front view showing fine knit quality",
+      "color": "charcoal",
+      "material": "fine-gauge merino wool blend with soft hand",
+      "details": ["fine merino knit texture", "self-fabric collar", "mother of pearl buttons", "refined tailored fit"]
+    },
+    "camera": {
+      "angle": "front",
+      "distance": "full product",
+      "focus": "knit texture and collar detail"
+    },
+    "lighting": {
+      "setup": "soft lighting emphasizing quality",
+      "shadows": "soft"
+    },
+    "style": {
+      "quality": "professional e-commerce product photography, pure white seamless background, premium studio lighting"
+    },
+    "technical": {
+      "aspectRatio": "1:1",
+      "resolution": "2K"
+    }
+  }
+}

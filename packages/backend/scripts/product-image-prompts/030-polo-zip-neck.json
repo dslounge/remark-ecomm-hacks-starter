@@ -1,0 +1,35 @@
+{
+  "name": "Vertex Zip-Neck Polo",
+  "description": "Modern zip-neck styling with athletic fit. Quick-dry fabric and UPF protection for outdoor activities. Sport-casual versatility.",
+  "categoryId": 2,
+  "subcategory": "Polo Shirts",
+  "priceInCents": 5999,
+  "sizes": ["S", "M", "L", "XL", "XXL"],
+  "colors": ["Black", "Navy", "Olive"],
+  "imagePrompt": {
+    "version": 1,
+    "subject": {
+      "product": "zip-neck polo shirt",
+      "variant": "front view with zipper partially open",
+      "color": "black",
+      "material": "smooth quick-dry polyester",
+      "details": ["contrast zipper", "stand-up collar", "chest logo", "straight hem"]
+    },
+    "camera": {
+      "angle": "front",
+      "distance": "full product",
+      "focus": "zipper and collar construction"
+    },
+    "lighting": {
+      "setup": "even lighting with accent on zipper",
+      "shadows": "soft"
+    },
+    "style": {
+      "quality": "professional e-commerce product photography, pure white seamless background, studio lighting"
+    },
+    "technical": {
+      "aspectRatio": "1:1",
+      "resolution": "2K"
+    }
+  }
+}

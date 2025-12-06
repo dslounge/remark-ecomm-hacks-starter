@@ -1,0 +1,35 @@
+{
+  "name": "Trailhead Nimbus Ultralight Shell",
+  "description": "Minimalist ultralight rain shell weighing just 6oz. Emergency protection that fits in your pocket. Ideal for fast-and-light adventurers.",
+  "categoryId": 1,
+  "subcategory": "Rain Jackets",
+  "priceInCents": 12999,
+  "sizes": ["XS", "S", "M", "L", "XL"],
+  "colors": ["Bright Yellow", "Electric Blue", "Safety Orange"],
+  "imagePrompt": {
+    "version": 1,
+    "subject": {
+      "product": "ultralight packable rain shell",
+      "variant": "front view with small stuff sack shown beside it",
+      "color": "bright yellow",
+      "material": "ultra-thin ripstop nylon with DWR coating, slightly translucent",
+      "details": ["simple elastic hood", "single chest pocket doubles as stuff sack", "elastic cuffs", "minimalist design"]
+    },
+    "camera": {
+      "angle": "front",
+      "distance": "full product with accessory",
+      "focus": "fabric texture and lightweight construction"
+    },
+    "lighting": {
+      "setup": "bright even lighting to show fabric translucency",
+      "shadows": "minimal"
+    },
+    "style": {
+      "quality": "professional e-commerce product photography, pure white seamless background, clean studio lighting"
+    },
+    "technical": {
+      "aspectRatio": "1:1",
+      "resolution": "2K"
+    }
+  }
+}

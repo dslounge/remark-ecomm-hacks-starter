@@ -1,0 +1,35 @@
+{
+  "name": "Basecamp Fleece Quarter-Zip",
+  "description": "Classic microfleece quarter-zip for everyday layering. Soft hand feel with anti-pill finish. Simple warmth done right.",
+  "categoryId": 2,
+  "subcategory": "Quarter-Zip Pullovers",
+  "priceInCents": 5499,
+  "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+  "colors": ["Heather Gray", "Navy", "Black", "Forest Green"],
+  "imagePrompt": {
+    "version": 1,
+    "subject": {
+      "product": "classic microfleece quarter-zip pullover",
+      "variant": "front view showing fleece texture",
+      "color": "heather gray",
+      "material": "soft microfleece with anti-pill finish",
+      "details": ["quarter-zip with fabric pull", "set-in sleeves", "open cuffs and hem", "relaxed fit"]
+    },
+    "camera": {
+      "angle": "front",
+      "distance": "full product",
+      "focus": "fleece texture"
+    },
+    "lighting": {
+      "setup": "soft side lighting for texture",
+      "shadows": "soft"
+    },
+    "style": {
+      "quality": "professional e-commerce product photography, pure white seamless background, studio lighting"
+    },
+    "technical": {
+      "aspectRatio": "1:1",
+      "resolution": "2K"
+    }
+  }
+}

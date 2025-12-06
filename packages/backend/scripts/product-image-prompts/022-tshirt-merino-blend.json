@@ -1,0 +1,35 @@
+{
+  "name": "Alpine Merino Blend Tee",
+  "description": "Natural temperature regulation with merino wool blend. Soft next-to-skin feel with natural odor resistance. Perfect for multi-day adventures.",
+  "categoryId": 2,
+  "subcategory": "T-Shirts",
+  "priceInCents": 6499,
+  "sizes": ["S", "M", "L", "XL"],
+  "colors": ["Charcoal", "Oatmeal", "Sage", "Navy"],
+  "imagePrompt": {
+    "version": 1,
+    "subject": {
+      "product": "merino wool blend t-shirt",
+      "variant": "front view with visible fine knit texture",
+      "color": "charcoal",
+      "material": "fine-gauge merino wool blend jersey",
+      "details": ["fine knit texture visible", "flatlock seams", "set-in sleeves", "slightly longer back hem"]
+    },
+    "camera": {
+      "angle": "front",
+      "distance": "full product",
+      "focus": "merino texture"
+    },
+    "lighting": {
+      "setup": "soft side lighting to show knit detail",
+      "shadows": "soft"
+    },
+    "style": {
+      "quality": "professional e-commerce product photography, pure white seamless background, studio lighting showing natural fiber quality"
+    },
+    "technical": {
+      "aspectRatio": "1:1",
+      "resolution": "2K"
+    }
+  }
+}

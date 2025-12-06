@@ -1,0 +1,35 @@
+{
+  "name": "Summit Cloudbreak Rain Jacket",
+  "description": "Lightweight 3-layer waterproof shell with fully taped seams. Packs into its own chest pocket for easy travel. Perfect for unexpected storms on exposed ridges.",
+  "categoryId": 1,
+  "subcategory": "Rain Jackets",
+  "priceInCents": 18999,
+  "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+  "colors": ["Forest Green", "Slate Blue", "Black"],
+  "imagePrompt": {
+    "version": 1,
+    "subject": {
+      "product": "lightweight waterproof rain jacket with adjustable hood",
+      "variant": "front view with hood up, slightly angled to show side zipper vents",
+      "color": "forest green",
+      "material": "matte technical ripstop fabric with visible water-repellent finish",
+      "details": ["adjustable drawcord hood with laminated brim", "waterproof front zipper with storm flap", "pit zips for ventilation", "reflective logo on chest"]
+    },
+    "camera": {
+      "angle": "three-quarter front",
+      "distance": "full product",
+      "focus": "hood and chest zipper detail"
+    },
+    "lighting": {
+      "setup": "dual softbox with subtle rim light",
+      "shadows": "soft, minimal"
+    },
+    "style": {
+      "quality": "professional e-commerce product photography, pure white seamless background, crisp studio lighting"
+    },
+    "technical": {
+      "aspectRatio": "1:1",
+      "resolution": "2K"
+    }
+  }
+}
