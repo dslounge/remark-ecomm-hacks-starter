@@ -264,3 +264,4 @@ Test on:
 - Consider adding category filters in dropdown
 - Consider highlighting matched text in suggestions
 - Consider adding keyboard shortcuts (e.g., Cmd+K to focus search)
+

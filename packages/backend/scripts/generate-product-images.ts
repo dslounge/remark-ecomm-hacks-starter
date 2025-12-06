@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import { db } from '../src/db/connection.js';
 import { renderPromptText } from '../src/utils/prompt-renderer.js';
 import fs from 'fs';
@@ -5,7 +6,10 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import type { ImagePrompt } from '@summit-gear/shared';
 
+// Load .env from project root (two levels up from scripts/)
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const rootEnvPath = path.join(__dirname, '../../../.env');
+dotenv.config({ path: rootEnvPath });
 
 // Configuration - save to frontend public folder so Vite serves them directly
 const OUTPUT_DIR = path.join(__dirname, '../../frontend/public/products');

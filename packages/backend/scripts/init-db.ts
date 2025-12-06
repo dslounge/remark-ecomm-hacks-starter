@@ -1,8 +1,27 @@
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { db } from '../src/db/connection.js';
 import { allSchemas } from '../src/db/schema.js';
 import { CATEGORIES } from '@summit-gear/shared';
 
+// Load .env from project root (two levels up from scripts/)
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const rootEnvPath = path.join(__dirname, '../../../.env');
+dotenv.config({ path: rootEnvPath });
+
 console.log('Initializing database...');
+
+// Drop existing tables if they exist (in reverse order due to foreign keys)
+try {
+  db.exec('DROP TABLE IF EXISTS outfits');
+  db.exec('DROP TABLE IF EXISTS products');
+  db.exec('DROP TABLE IF EXISTS categories');
+  console.log('Dropped existing tables.');
+} catch (error) {
+  // Tables might not exist
+  console.log('Skipping table drop (tables may not exist).');
+}
 
 // Create tables
 for (const schema of allSchemas) {
@@ -10,20 +29,6 @@ for (const schema of allSchemas) {
 }
 
 console.log('Tables created successfully.');
-
-// Clear existing data (products first due to foreign key)
-try {
-  db.exec('DELETE FROM products');
-  db.exec('DELETE FROM categories');
-  db.exec('DELETE FROM outfits');
-  db.exec(
-    "DELETE FROM sqlite_sequence WHERE name IN ('categories', 'products', 'outfits')"
-  );
-  console.log('Cleared existing data.');
-} catch (error) {
-  // Tables might be empty on first run
-  console.log('Skipping data clear (tables may be new).');
-}
 
 // Seed categories
 const insertCategory = db.prepare(`

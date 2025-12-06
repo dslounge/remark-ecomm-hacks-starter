@@ -54,3 +54,4 @@ export function createImagePreview(file: File): Promise<string> {
     reader.readAsDataURL(file);
   });
 }
+

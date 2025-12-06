@@ -21,3 +21,4 @@ export interface OutfitRecord {
   generatedImageBase64?: string;
   generatedImageMimeType?: SupportedImageMime;
 }
+

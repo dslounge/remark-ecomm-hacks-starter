@@ -1,7 +1,15 @@
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import express from 'express';
 import cors from 'cors';
 import { errorHandler } from './middleware/error-handler.js';
 import apiRoutes from './routes/index.js';
+
+// Load .env from project root (two levels up from src/)
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const rootEnvPath = path.join(__dirname, '../../../.env');
+dotenv.config({ path: rootEnvPath });
 
 const app = express();
 const PORT = process.env.PORT || 3001;
