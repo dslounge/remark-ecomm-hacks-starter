@@ -1,8 +1,40 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useState, type FormEvent } from 'react';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 
 export function Header() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const [searchTerm, setSearchTerm] = useState(() => searchParams.get('search') || '');
+
+  useEffect(() => {
+    setSearchTerm(searchParams.get('search') || '');
+  }, [searchParams]);
+
+  const handleSearch = (event: FormEvent) => {
+    event.preventDefault();
+
+    const params = new URLSearchParams(searchParams);
+    const trimmed = searchTerm.trim();
+
+    if (trimmed) {
+      params.set('search', trimmed);
+      params.set('page', '1');
+    } else {
+      params.delete('search');
+      params.delete('page');
+    }
+
+    const isProductListRoute =
+      location.pathname.startsWith('/products') || location.pathname.startsWith('/category/');
+    const targetPath = isProductListRoute ? location.pathname : '/products';
+    const queryString = params.toString();
+
+    navigate(`${targetPath}${queryString ? `?${queryString}` : ''}`);
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,13 +65,16 @@ export function Header() {
 
           {/* Search and Cart */}
           <div className="flex items-center space-x-4">
-            <div className="hidden lg:block">
+            <form onSubmit={handleSearch} className="hidden lg:block">
               <Input
                 type="search"
-                placeholder="Search products..."
+                placeholder="Search by name or color..."
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+                aria-label="Search products by name or color"
                 className="w-64"
               />
-            </div>
+            </form>
             <Link to="/cart">
               <Button variant="ghost" size="sm" className="relative">
                 <svg

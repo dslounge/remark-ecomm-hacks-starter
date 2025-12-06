@@ -32,8 +32,25 @@ export const createIndexes = `
   CREATE INDEX IF NOT EXISTS idx_products_price ON products(price_in_cents);
 `;
 
+export const createOutfitsTable = `
+  CREATE TABLE IF NOT EXISTS outfits (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    product_ids TEXT NOT NULL,
+    face_image BLOB NOT NULL,
+    body_image BLOB NOT NULL,
+    generated_image BLOB,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+`;
+
+export const createOutfitIndexes = `
+  CREATE INDEX IF NOT EXISTS idx_outfits_created_at ON outfits(created_at);
+`;
+
 export const allSchemas = [
   createCategoriesTable,
   createProductsTable,
   createIndexes,
+  createOutfitsTable,
+  createOutfitIndexes,
 ];

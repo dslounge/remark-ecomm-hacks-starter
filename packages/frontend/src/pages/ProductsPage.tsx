@@ -38,6 +38,7 @@ export function ProductsPage() {
     }
 
     setFilters(newFilters);
+    setPage(1);
   }, [searchParams, slug]);
 
   const { data: productsResponse, isLoading } = useProducts(filters, page, pageSize);

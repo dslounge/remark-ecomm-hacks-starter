@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import productsRouter from './products.js';
 import categoriesRouter from './categories.js';
+import outfitsRouter from './outfits.js';
 import { db } from '../db/connection.js';
 
 const router = Router();
@@ -8,6 +9,7 @@ const router = Router();
 // Mount route modules
 router.use('/products', productsRouter);
 router.use('/categories', categoriesRouter);
+router.use('/outfits', outfitsRouter);
 
 // GET /api/stats - Database statistics
 router.get('/stats', (req, res) => {

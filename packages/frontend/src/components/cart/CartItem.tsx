@@ -6,11 +6,31 @@ export interface CartItemProps {
   item: CartItemType;
   onUpdateQuantity: (quantity: number) => void;
   onRemove: () => void;
+  selectable?: boolean;
+  selected?: boolean;
+  onToggleSelect?: () => void;
 }
 
-export function CartItem({ item, onUpdateQuantity, onRemove }: CartItemProps) {
+export function CartItem({
+  item,
+  onUpdateQuantity,
+  onRemove,
+  selectable = false,
+  selected = false,
+  onToggleSelect = () => undefined,
+}: CartItemProps) {
   return (
     <div className="flex gap-4 py-4 border-b border-gray-200">
+      {selectable && (
+        <div className="pt-1">
+          <input
+            type="checkbox"
+            className="h-5 w-5 rounded border-gray-300 text-forest-700 focus:ring-forest-700"
+            checked={selected}
+            onChange={onToggleSelect}
+          />
+        </div>
+      )}
       {/* Product Image */}
       <img
         src={item.imageUrl}

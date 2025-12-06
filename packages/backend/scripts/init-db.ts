@@ -15,7 +15,10 @@ console.log('Tables created successfully.');
 try {
   db.exec('DELETE FROM products');
   db.exec('DELETE FROM categories');
-  db.exec("DELETE FROM sqlite_sequence WHERE name IN ('categories', 'products')");
+  db.exec('DELETE FROM outfits');
+  db.exec(
+    "DELETE FROM sqlite_sequence WHERE name IN ('categories', 'products', 'outfits')"
+  );
   console.log('Cleared existing data.');
 } catch (error) {
   // Tables might be empty on first run
